@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{19E7AF69-255B-4F02-9E30-3C44A317EC08}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="CollectorControl\CollectorControl.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="CollectorControl">
+        <MSBuild Projects="CollectorControl\CollectorControl.dproj"/>
+    </Target>
+    <Target Name="CollectorControl:Clean">
+        <MSBuild Projects="CollectorControl\CollectorControl.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CollectorControl:Make">
+        <MSBuild Projects="CollectorControl\CollectorControl.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="CollectorControl"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="CollectorControl:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="CollectorControl:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
