@@ -343,12 +343,13 @@ begin
   FCheckpoiintLogReceptionThread.MessagesWriteProc := WriteCheckpointMessages;
   FCheckpoiintLogReceptionThread.FreeOnTerminate := FALSE;
   FCheckpoiintLogReceptionThread.Suspended := FALSE;
+
+  pcOutput.ActivePageIndex := 0;
   LogInfo('Started');
 end;
 
 destructor TfmMain.Destroy;
 begin
-
   FCheckpoiintLogReceptionThread.Terminate;
   FCheckpoiintLogReceptionThread.Free;
 
@@ -570,8 +571,10 @@ begin
     TControlChannel.ControlChanel.ThreadStop(TRUE);
     TReceiverChannel.ReceiverChanel.ThreadStop(TRUE);
     LogInfo('Status: Not Lisening');
+
     TControlChannel.ControlChanel.Free;
     TControlChannel.ControlChanel := nil;
+
     TReceiverChannel.ReceiverChanel.Free;
     TReceiverChannel.ReceiverChanel := nil;
   end;

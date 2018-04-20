@@ -44,8 +44,11 @@ implementation
 
 function TEncodingHelper.GetString(Bytes: PByte; ByteCount: Integer): String;
 begin
-  SetLength(Result, GetCharCount(Bytes, ByteCount));
-  GetChars(Bytes, ByteCount, PChar(Result), Length(Result));
+  try
+    SetLength(Result, GetCharCount(Bytes, ByteCount));
+    GetChars(Bytes, ByteCount, PChar(Result), Length(Result));
+  except
+  end;
 end;
 
 function _ServiceConnection(const AArgs: PThreadArguments): Integer;

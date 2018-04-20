@@ -5,7 +5,8 @@ interface
 uses
   System.Classes, System.SysUtils, WinApi.Windows, WinApi.Messages,
   System.SyncObjs, WinApi.Winsock, CustomThread, BaseSocketThread,
-  FileLogger, BaseSocketServer, System.Generics.Collections;
+  FileLogger, BaseSocketServer, System.Generics.Collections,
+  System.Threading;
 
 type
   TControlChannel = class(TBaseSocketServer)
@@ -155,13 +156,45 @@ end;
 
 function TControlChannel.ConnectToLEA(ACollectorExe: String; ALEAConfigFile: String; AMsgSrcID: Integer; AFileId: Integer; AFilePosition: Integer; AIsAudit: Boolean): Boolean;
 var
+  LCollectorTask: ITask;
   LCommandLine: string;
   LStartInfo: TStartupInfo;
   LProcInfo: TProcessInformation;
 begin
   Result := FALSE;
+
+  if (AIsAudit) then
+    LCommandLine := '"' + ACollectorExe + '" -cf "' + ALEAConfigFile + '" ' + String.Format('-host %s -port %d -m %d -f %d -p %d -audit', [FHost, FPort, AMsgSrcID, AFileID, AFilePosition])
+  else
+    LCommandLine := '"' + ACollectorExe + '" -cf "' + ALEAConfigFile + '" ' + String.Format('-host %s -port %d -m %d -f %d -p %d', [FHost, FPort, AMsgSrcID, AFileID, AFilePosition]);
+
   if ( not FProcesses.ContainsKey(AMsgSrcID) ) then
   begin
+    LCollectorTask := TTask.Run(
+    procedure
+    const
+      BUFF_SIZE = 4096;
+    var
+      si: TStartupInfo;
+      pi: TProcessInformation;
+      LCmdLine: String;
+    begin
+      FillChar(si, SizeOf(TStartupInfo), 0);
+      FillChar(pi, SizeOf(TProcessInformation), 0);
+
+      LCmdLine := LCommandLine;
+      LogInfo(String.Format('Using Command Line: %s', [LCmdLine]));
+      if CreateProcess(nil, PChar(LCmdLine), nil, nil, FALSE, NORMAL_PRIORITY_CLASS, nil, nil, si, pi) then
+      begin
+        FProcesses.AddOrSetValue(AMsgSrcID, LProcInfo.dwProcessId);
+        CloseHandle( pi.hProcess );
+        CloseHandle( pi.hThread );
+      end;
+    end
+    );
+
+    EXIT;
+
     FillChar(LStartInfo, SizeOf(TStartupInfo), 0);
     FillChar(LProcInfo, SizeOf(TProcessInformation), 0);
     LStartInfo.cb := SizeOf(TStartupInfo);
