@@ -24,7 +24,9 @@ uses
   CollectorConfig in 'CollectorConfig.pas' {fmCollectorConfig},
   ControllerSettings in 'ControllerSettings.pas',
   ControlChannel in 'ControlChannel.pas',
-  ReceiverChannel in 'ReceiverChannel.pas';
+  ReceiverChannel in 'ReceiverChannel.pas',
+  ConfFileEditor in 'ConfFileEditor.pas' {fmConfFileEditor},
+  LEAConfig in 'LEAConfig.pas';
 
 {$R *.res}
 

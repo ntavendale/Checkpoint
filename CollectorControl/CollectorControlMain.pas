@@ -27,7 +27,7 @@ uses
   cxGridTableView, cxClasses, cxGridLevel, cxGrid, Vcl.Menus, System.ImageList,
   Vcl.ImgList, RzButton, CollectorConfig, RzBtnEdt, System.UITypes,
   System.Generics.Collections, System.SyncObjs, RzTabs, FileLogger,
-  ControlChannel, ReceiverChannel, cxCheckBox;
+  ControlChannel, ReceiverChannel, cxCheckBox, ConfFileEditor;
 
 type
   TMessageWriteProc = procedure(AValue: String) of Object;
@@ -110,6 +110,8 @@ type
     btnDisconnect: TRzBitBtn;
     btnCloseControlPorts: TRzBitBtn;
     colConfigsIsAudit: TcxGridColumn;
+    ppmiEditConfig: TMenuItem;
+    odConfFile: TOpenDialog;
     procedure ppmiNewClick(Sender: TObject);
     procedure ppmiEditClick(Sender: TObject);
     procedure ppmiDeleteClick(Sender: TObject);
@@ -120,6 +122,7 @@ type
     procedure btnConnectClick(Sender: TObject);
     procedure btnDisconnectClick(Sender: TObject);
     procedure btnCloseControlPortsClick(Sender: TObject);
+    procedure ppmiEditConfigClick(Sender: TObject);
   private
     { Private declarations }
     FLogReceptionThread: TTextMessageReceptionThread;
@@ -577,6 +580,35 @@ begin
 
     TReceiverChannel.ReceiverChanel.Free;
     TReceiverChannel.ReceiverChanel := nil;
+  end;
+end;
+
+procedure TfmMain.ppmiEditConfigClick(Sender: TObject);
+var
+  fm: TfmConfFileEditor;
+  LConfFile: String;
+  LIndex: Integer;
+begin
+  LIndex := tvConfigs.DataController.FocusedRecordIndex;
+  if LIndex < 0 then
+  begin
+    MessageDlg('You must select a Config.', mtError, [mbOK], 0);
+    EXIT;
+  end;
+
+  LConfFile := TGridDataSource(tvConfigs.DataController.CustomDataSource).List[LIndex].LEAConfigFile;
+  if not FileExists(LConfFile) then
+  begin
+    LConfFile := String.Empty;
+    if odConfFile.Execute then
+      LConfFile := odConfFile.FileName;
+  end;
+
+  fm := TfmConfFileEditor.Create(nil, LConfFile);
+  try
+    fm.ShowModal;
+  finally
+    fm.Free;
   end;
 end;
 
