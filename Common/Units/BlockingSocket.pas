@@ -12,7 +12,7 @@ interface
 uses
   System.Classes, System.SysUtils, WinApi.Windows, WinApi.Messages,
   System.SyncObjs, WinApi.Winsock, IdWship6, FileLogger,
-  SocketTypes, AnsiStrings,
+  CommonFunctions, AnsiStrings,
   IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdGlobal,
   IdIOHandler, IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL,
   IdSSLOpenSSLHeaders;
@@ -268,6 +268,7 @@ begin
 end;
 {$ENDREGION}
 
+{$REGION 'TIndySecureBlockingSocket'}
 constructor TIndySecureBlockingSocket.Create(AHost: String; APort: WORD; ATLSVersion: WORD);
 begin
   inherited Create(AHost, APort);
@@ -373,5 +374,6 @@ begin
     raise Exception.Create('Socket Error sending message');
   end;
 end;
+{$ENDREGION}
 
 end.

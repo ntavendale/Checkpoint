@@ -52,6 +52,8 @@ type
     FReceiverHost: String;
     FReceiverPort: WORD;
     FConfigs: TCollectorConfigList;
+    FWriteReceivedLogsToFile: Boolean;
+    FReceivedLogFile: String;
     procedure SetConfigs(AValue: TCollectorConfigList);
   public
     constructor Create(AFileName: String);
@@ -66,6 +68,8 @@ type
     property ReceiverHost: String read FReceiverHost write FReceiverHost;
     property ReceiverPort: WORD read FReceiverPort write FReceiverPort;
     property Configs: TCollectorConfigList read FConfigs write SetConfigs;
+    property WriteReceivedLogsToFile: Boolean read FWriteReceivedLogsToFile write FWriteReceivedLogsToFile;
+    property ReceivedLogFile: String read FReceivedLogFile write FReceivedLogFile;
     class function GetDefaultConfigFile: String;
     class property Settings: TControlerSettings read FControllerSettings write FControllerSettings;
   end;
@@ -148,6 +152,8 @@ begin
   FControlPort := 3200;
   FReceiverHost := '127.0.0.1';
   FReceiverPort := 4200;
+  FWriteReceivedLogsToFile := FALSE;;
+  FReceivedLogFile := String.Empty;
 end;
 
 destructor TControlerSettings.Destroy;
@@ -231,6 +237,15 @@ begin
     end;
   end;
 
+  LNodeElement := AXmlDocument.DocumentElement.ChildNodes.FindNode('ReceivedLogs');
+  if (LNodeElement <> nil) then
+  begin
+    if (LNodeElement.HasAttribute('WriteToFile')) then
+      FWriteReceivedLogsToFile := (('TRUE' = UpperCase(LNodeElement.Attributes['WriteToFile'])) or ('T' = UpperCase(LNodeElement.Attributes['WriteToFile'])) or ('1' = UpperCase(LNodeElement.Attributes['WriteToFile'])));
+    if (LNodeElement.HasAttribute('ReceivedLogFile')) then
+      FReceivedLogFile := LNodeElement.Attributes['ReceivedLogFile'];
+  end;
+
   LNodeElement := AXmlDocument.DocumentElement.ChildNodes.FindNode('Collectors');
   if LNodeElement.HasChildNodes then
   begin
@@ -278,6 +293,13 @@ begin
   LNodeElement.Attributes['Host'] := FReceiverHost;
   LNodeElement.Attributes['Port'] := IntToStr(FReceiverPort);
 
+  LNodeElement := Result.DocumentElement.AddChild('ReceivedLogs');
+  if FWriteReceivedLogsToFile then
+    LNodeElement.Attributes['WriteToFile'] := 'True'
+  else
+    LNodeElement.Attributes['WriteToFile'] := 'False';
+  LNodeElement.Attributes['ReceivedLogFile'] := FReceivedLogFile;
+
   LNodeElement := Result.DocumentElement.AddChild('Collectors', -1);
   for i := 0 to (FConfigs.Count - 1) do
   begin
@@ -297,7 +319,7 @@ class function TControlerSettings.GetDefaultConfigFile: String;
 var
   LDir: String;
 begin
-  LDir := String.Format('%s\%s\%s\%s', [ExcludeTrailingPathDelimiter(GetCommonAppDataDir), 'HoddedClaw', 'Checkpoint', 'CollectorControl']);
+  LDir := String.Format('%s\%s\%s\%s', [ExcludeTrailingPathDelimiter(GetCommonAppDataDir), 'HoodedClaw', 'Checkpoint', 'CollectorControl']);
   if not TDirectory.Exists(LDir) then
     TDirectory.CreateDirectory(LDir);
   Result := String.Format('%s\%s', [LDir, 'ControlCfg.xml']);

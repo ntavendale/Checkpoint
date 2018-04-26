@@ -4,8 +4,8 @@ object fmMain: TfmMain
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Collector Control'
-  ClientHeight = 746
-  ClientWidth = 810
+  ClientHeight = 742
+  ClientWidth = 836
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,13 +19,14 @@ object fmMain: TfmMain
   object gbCollector: TRzGroupBox
     Left = 0
     Top = 0
-    Width = 810
+    Width = 836
     Height = 65
     Align = alTop
     Caption = 'Collector Exe'
     TabOrder = 0
     ExplicitLeft = 24
     ExplicitTop = 18
+    ExplicitWidth = 810
     object ebCollectorExe: TRzButtonEdit
       Left = 16
       Top = 24
@@ -43,11 +44,12 @@ object fmMain: TfmMain
   object gbControlSockets: TRzGroupBox
     Left = 0
     Top = 65
-    Width = 810
+    Width = 836
     Height = 88
     Align = alTop
     Caption = 'Socket Settings'
     TabOrder = 1
+    ExplicitWidth = 810
     object RzLabel1: TRzLabel
       Left = 16
       Top = 24
@@ -123,16 +125,16 @@ object fmMain: TfmMain
   object RzGroupBox1: TRzGroupBox
     Left = 0
     Top = 153
-    Width = 810
-    Height = 344
+    Width = 836
+    Height = 240
     Align = alTop
     Caption = 'Configs'
     TabOrder = 2
     object gConfigs: TcxGrid
       Left = 1
       Top = 19
-      Width = 808
-      Height = 278
+      Width = 834
+      Height = 174
       Align = alTop
       PopupMenu = ppmConfigs
       TabOrder = 0
@@ -177,7 +179,7 @@ object fmMain: TfmMain
     end
     object btnControl: TRzBitBtn
       Left = 1
-      Top = 303
+      Top = 199
       Hint = 'Open Control Channnel'
       Caption = 'Control'
       ParentShowHint = False
@@ -187,21 +189,21 @@ object fmMain: TfmMain
     end
     object btnConnect: TRzButton
       Left = 82
-      Top = 303
+      Top = 199
       Caption = 'Connect'
       TabOrder = 2
       OnClick = btnConnectClick
     end
     object btnDisconnect: TRzBitBtn
       Left = 163
-      Top = 303
+      Top = 199
       Caption = 'Disconnect'
       TabOrder = 3
       OnClick = btnDisconnectClick
     end
     object btnCloseControlPorts: TRzBitBtn
       Left = 244
-      Top = 303
+      Top = 199
       Caption = 'Close'
       TabOrder = 4
       OnClick = btnCloseControlPortsClick
@@ -209,8 +211,8 @@ object fmMain: TfmMain
   end
   object pnBottom: TPanel
     Left = 0
-    Top = 705
-    Width = 810
+    Top = 701
+    Width = 836
     Height = 41
     Align = alBottom
     BevelOuter = bvNone
@@ -336,9 +338,9 @@ object fmMain: TfmMain
   end
   object pcOutput: TRzPageControl
     Left = 0
-    Top = 497
-    Width = 810
-    Height = 208
+    Top = 393
+    Width = 836
+    Height = 308
     Hint = ''
     ActivePage = tsCheckpointLogs
     Align = alClient
@@ -358,8 +360,8 @@ object fmMain: TfmMain
       object memLog: TRzMemo
         Left = 0
         Top = 0
-        Width = 806
-        Height = 180
+        Width = 832
+        Height = 280
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -383,8 +385,8 @@ object fmMain: TfmMain
       object memCheckpointLogs: TRzMemo
         Left = 0
         Top = 0
-        Width = 806
-        Height = 180
+        Width = 832
+        Height = 239
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -397,6 +399,40 @@ object fmMain: TfmMain
         WordWrap = False
         FrameStyle = fsBump
         FrameVisible = True
+      end
+      object RzPanel1: TRzPanel
+        Left = 0
+        Top = 239
+        Width = 832
+        Height = 41
+        Align = alBottom
+        BorderOuter = fsNone
+        TabOrder = 1
+        ExplicitLeft = 40
+        ExplicitTop = 216
+        ExplicitWidth = 185
+        object ckbWriteToFile: TRzCheckBox
+          Left = 15
+          Top = 2
+          Width = 97
+          Height = 20
+          Caption = 'Write To File'
+          HotTrack = True
+          State = cbUnchecked
+          TabOrder = 0
+          OnClick = ckbWriteToFileClick
+        end
+        object ebReceivedLogsFile: TRzButtonEdit
+          Left = 121
+          Top = 2
+          Width = 704
+          Height = 26
+          Text = ''
+          TabOrder = 1
+          AltBtnWidth = 15
+          ButtonWidth = 15
+          OnButtonClick = ebReceivedLogsFileButtonClick
+        end
       end
     end
   end
@@ -429,7 +465,7 @@ object fmMain: TfmMain
     Left = 256
     Top = 297
     Bitmap = {
-      494C010104000800400010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101040008004C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -711,5 +747,11 @@ object fmMain: TfmMain
     Filter = 'Text Files (*.txt)|*.txt|All Files (*.*)|*.*'
     Left = 472
     Top = 273
+  end
+  object sdLogs: TSaveDialog
+    DefaultExt = '*.txt'
+    Filter = 'Text Files (*.txt)|*.txt|All Files (*.*)|*.*'
+    Left = 673
+    Top = 634
   end
 end

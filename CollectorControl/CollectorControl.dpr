@@ -16,17 +16,17 @@ uses
   CollectorControlMain in 'CollectorControlMain.pas' {fmMain},
   BaseSocketServer in '..\Common\Units\BaseSocketServer.pas',
   BaseSocketThread in '..\Common\Units\BaseSocketThread.pas',
-  CommonFunctions in '..\Common\Units\CommonFunctions.pas',
-  CustomThread in '..\Common\Units\CustomThread.pas',
-  LockableObject in '..\Common\Units\LockableObject.pas',
-  FileLogger in '..\Common\Units\FileLogger.pas',
   BaseModalForm in '..\Common\Forms\BaseModalForm.pas' {fmBaseModalForm},
   CollectorConfig in 'CollectorConfig.pas' {fmCollectorConfig},
   ControllerSettings in 'ControllerSettings.pas',
   ControlChannel in 'ControlChannel.pas',
   ReceiverChannel in 'ReceiverChannel.pas',
   ConfFileEditor in 'ConfFileEditor.pas' {fmConfFileEditor},
-  LEAConfig in 'LEAConfig.pas';
+  LEAConfig in 'LEAConfig.pas',
+  CommonFunctions in '..\Common\Units\CommonFunctions.pas',
+  CustomThread in '..\Common\Units\CustomThread.pas',
+  FileLogger in '..\Common\Units\FileLogger.pas',
+  LockableObject in '..\Common\Units\LockableObject.pas';
 
 {$R *.res}
 

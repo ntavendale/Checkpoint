@@ -10,8 +10,15 @@ const
   FM_SELECT = 0;
   FM_VIEW = 1;
 
-  WARNING_7_1_5 = 'EMDB Versions 7.1.5 and earlier require a 6.x KB Package';
-  WARNING_7_1_6 = 'EMDB Versions 7.1.6 and later require a 7.x KB Package';
+const
+  BTHPROTO_RFCOMM = 3;
+  IPPROTO_ICMPV6  = 58;
+  IPPROTO_RM      = 113;
+  MAX_UDP_BUFF_LEN = 65536;
+type
+  PaPInAddr = ^TaPInAddr;
+  TaPInAddr = array[0..3] of Byte;
+
 
 function GetFileSize(const AFileName: String): Int64;
 function GetFileCreationTime(const AFileName: String): TDateTime;

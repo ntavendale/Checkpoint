@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ControllerSettings,
+  System.IOUtils, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ControllerSettings,
   Vcl.ExtCtrls, RzPanel, Vcl.StdCtrls, Vcl.Mask, RzEdit, RzDBEdit, RzDBBnEd,
   RzLabel, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxStyles, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint,
@@ -27,7 +27,7 @@ uses
   cxGridTableView, cxClasses, cxGridLevel, cxGrid, Vcl.Menus, System.ImageList,
   Vcl.ImgList, RzButton, CollectorConfig, RzBtnEdt, System.UITypes,
   System.Generics.Collections, System.SyncObjs, RzTabs, FileLogger,
-  ControlChannel, ReceiverChannel, cxCheckBox, ConfFileEditor;
+  ControlChannel, ReceiverChannel, cxCheckBox, ConfFileEditor, RzRadChk;
 
 type
   TMessageWriteProc = procedure(AValue: String) of Object;
@@ -112,6 +112,10 @@ type
     colConfigsIsAudit: TcxGridColumn;
     ppmiEditConfig: TMenuItem;
     odConfFile: TOpenDialog;
+    RzPanel1: TRzPanel;
+    ckbWriteToFile: TRzCheckBox;
+    ebReceivedLogsFile: TRzButtonEdit;
+    sdLogs: TSaveDialog;
     procedure ppmiNewClick(Sender: TObject);
     procedure ppmiEditClick(Sender: TObject);
     procedure ppmiDeleteClick(Sender: TObject);
@@ -123,6 +127,8 @@ type
     procedure btnDisconnectClick(Sender: TObject);
     procedure btnCloseControlPortsClick(Sender: TObject);
     procedure ppmiEditConfigClick(Sender: TObject);
+    procedure ckbWriteToFileClick(Sender: TObject);
+    procedure ebReceivedLogsFileButtonClick(Sender: TObject);
   private
     { Private declarations }
     FLogReceptionThread: TTextMessageReceptionThread;
@@ -282,7 +288,6 @@ begin
     FCrticalSection.Release;
   end;
 end;
-
 {$ENDREGION}
 
 {$REGION 'TGridDataSource'}
@@ -368,6 +373,14 @@ begin
   neControlPort.IntValue := TControlerSettings.Settings.ControlPort;
   ebReceiverHost.Text := TControlerSettings.Settings.ReceiverHost;
   neReceiverPort.IntValue := TControlerSettings.Settings.ReceiverPort;
+  ckbWriteToFile.Checked := TControlerSettings.Settings.WriteReceivedLogsToFile;
+  if TControlerSettings.Settings.WriteReceivedLogsToFile then
+  begin
+    ebReceivedLogsFile.Text := TControlerSettings.Settings.ReceivedLogFile;
+    ebReceivedLogsFile.Enabled := TRUE;
+  end
+  else
+    ebReceivedLogsFile.Enabled := FALSE;
   LoadGrid(TControlerSettings.Settings.Configs);
 end;
 
@@ -378,6 +391,9 @@ begin
   TControlerSettings.Settings.ControlPort := neControlPort.IntValue;
   TControlerSettings.Settings.ReceiverHost := ebReceiverHost.Text;
   TControlerSettings.Settings.ReceiverPort := neReceiverPort.IntValue;
+  TControlerSettings.Settings.WriteReceivedLogsToFile := ckbWriteToFile.Checked;
+  if TControlerSettings.Settings.WriteReceivedLogsToFile then
+    TControlerSettings.Settings.ReceivedLogFile := ebReceivedLogsFile.Text;
   TControlerSettings.Settings.Configs := TCollectorConfigList.Create( TGridDataSource(tvConfigs.DataController.CustomDataSource).List );
 end;
 
@@ -417,6 +433,8 @@ begin
   if memCheckpointLogs.Lines.Count > 10000 then
     memCheckpointLogs.Lines.Clear;
   memCheckpointLogs.Lines.AddStrings(AValue);
+  if ckbWriteToFile.Checked then
+    TFile.AppendAllText(ebReceivedLogsFile.Text, AValue.Text);
 end;
 
 procedure TfmMain.ppmiNewClick(Sender: TObject);
@@ -610,6 +628,17 @@ begin
   finally
     fm.Free;
   end;
+end;
+
+procedure TfmMain.ckbWriteToFileClick(Sender: TObject);
+begin
+  ebReceivedLogsFile.Enabled := ckbWriteToFile.Checked;
+end;
+
+procedure TfmMain.ebReceivedLogsFileButtonClick(Sender: TObject);
+begin
+  if sdLogs.Execute then
+    ebReceivedLogsFile.Text := sdLogs.FileName;
 end;
 
 end.

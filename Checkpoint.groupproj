@@ -6,6 +6,9 @@
         <Projects Include="CollectorControl\CollectorControl.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="RelayClient\RelayClient.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -23,14 +26,23 @@
     <Target Name="CollectorControl:Make">
         <MSBuild Projects="CollectorControl\CollectorControl.dproj" Targets="Make"/>
     </Target>
+    <Target Name="RelayClient">
+        <MSBuild Projects="RelayClient\RelayClient.dproj"/>
+    </Target>
+    <Target Name="RelayClient:Clean">
+        <MSBuild Projects="RelayClient\RelayClient.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RelayClient:Make">
+        <MSBuild Projects="RelayClient\RelayClient.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="CollectorControl"/>
+        <CallTarget Targets="CollectorControl;RelayClient"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CollectorControl:Clean"/>
+        <CallTarget Targets="CollectorControl:Clean;RelayClient:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CollectorControl:Make"/>
+        <CallTarget Targets="CollectorControl:Make;RelayClient:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

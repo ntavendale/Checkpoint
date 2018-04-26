@@ -3,7 +3,7 @@
 AppName=Checkpoint Controller
 #define ver GetFileVersion(".\CollectorControl.exe")
 AppVersion={#ver}
-DefaultDirName={pf}\HoddedClaw
+DefaultDirName={pf}\HoodedClaw
 
 ; Optional by Inno=
 AppVerName=Checkpoint Controller {#ver}
@@ -34,9 +34,11 @@ ArchitecturesInstallIn64BitMode=x64
 [Files]
 ; ***** App files *****:
 Source: ".\CollectorControl.exe"; DestDir: "{app}"
+Source: ".\RelayClient.exe"; DestDir: "{app}"
 
 [Icons]
 Name: {commonprograms}\The Hooded Claw\Checkpoint Collection Controler; Filename: {app}\CollectorControl.exe; WorkingDir: {app}
+Name: {commonprograms}\The Hooded Claw\Checkpoint Relay CLient; Filename: {app}\RelayClient.exe; WorkingDir: {app}
 
 
 [Code]
