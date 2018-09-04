@@ -26,7 +26,8 @@ uses
   cxGridTableView, cxClasses, cxGridCustomView, cxGrid, LEAMsg, ConfigEdit,
   Vcl.Menus, RzBtnEdt, Vcl.StdCtrls, Vcl.Mask, RzEdit, RzLabel, System.DateUtils,
   cxInplaceContainer, cxVGrid, LEASendThread, BlockingSocket, GetDate,
-  GetMsgSrcID, System.Generics.Collections, System.SyncObjs, FileLogger;
+  GetMsgSrcID, System.Generics.Collections, System.SyncObjs, FileLogger,
+  dxSkinTheBezier, cxDataControllerConditionalFormattingRulesManagerDialog;
 
 type
   TMessageWriteProc = procedure(AValue: String) of Object;

@@ -36,6 +36,7 @@ object fmMain: TfmMain
       FrameStyle = fsBump
       FrameVisible = True
       TabOrder = 0
+      OnChange = ebCollectorExeChange
       AltBtnWidth = 15
       ButtonWidth = 15
       OnButtonClick = ebCollectorExeButtonClick
@@ -87,6 +88,7 @@ object fmMain: TfmMain
       FrameStyle = fsBump
       FrameVisible = True
       TabOrder = 0
+      OnChange = ebCollectorExeChange
     end
     object neControlPort: TRzNumericEdit
       Left = 256
@@ -96,6 +98,7 @@ object fmMain: TfmMain
       FrameStyle = fsBump
       FrameVisible = True
       TabOrder = 1
+      OnChange = ebCollectorExeChange
       DisplayFormat = '0'
     end
     object ebReceiverHost: TRzEdit
@@ -107,6 +110,7 @@ object fmMain: TfmMain
       FrameStyle = fsBump
       FrameVisible = True
       TabOrder = 2
+      OnChange = ebCollectorExeChange
     end
     object neReceiverPort: TRzNumericEdit
       Left = 608
@@ -429,6 +433,7 @@ object fmMain: TfmMain
           Height = 26
           Text = ''
           TabOrder = 1
+          OnChange = ebCollectorExeChange
           AltBtnWidth = 15
           ButtonWidth = 15
           OnButtonClick = ebReceivedLogsFileButtonClick
@@ -465,7 +470,7 @@ object fmMain: TfmMain
     Left = 256
     Top = 297
     Bitmap = {
-      494C0101040008004C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000800500010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

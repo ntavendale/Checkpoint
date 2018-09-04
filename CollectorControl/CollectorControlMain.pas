@@ -27,7 +27,8 @@ uses
   cxGridTableView, cxClasses, cxGridLevel, cxGrid, Vcl.Menus, System.ImageList,
   Vcl.ImgList, RzButton, CollectorConfig, RzBtnEdt, System.UITypes,
   System.Generics.Collections, System.SyncObjs, RzTabs, FileLogger,
-  ControlChannel, ReceiverChannel, cxCheckBox, ConfFileEditor, RzRadChk;
+  ControlChannel, ReceiverChannel, cxCheckBox, ConfFileEditor, RzRadChk,
+  dxSkinTheBezier, cxDataControllerConditionalFormattingRulesManagerDialog;
 
 type
   TMessageWriteProc = procedure(AValue: String) of Object;
@@ -129,6 +130,7 @@ type
     procedure ppmiEditConfigClick(Sender: TObject);
     procedure ckbWriteToFileClick(Sender: TObject);
     procedure ebReceivedLogsFileButtonClick(Sender: TObject);
+    procedure ebCollectorExeChange(Sender: TObject);
   private
     { Private declarations }
     FLogReceptionThread: TTextMessageReceptionThread;
@@ -340,6 +342,7 @@ begin
   TControlerSettings.Settings := TControlerSettings.Create(TControlerSettings.GetDefaultConfigFile);
   TControlerSettings.Settings.Load;
   ControllerToForm;
+  btnSave.Enabled := FALSE;
 
   FLogReceptionThread := TTextMessageReceptionThread.Create(TRUE);
   FLogReceptionThread.MessageWriteProc := WriteLog;
@@ -456,6 +459,7 @@ begin
   finally
     fm.Free;
   end;
+  btnSave.Enabled := TRUE;
 end;
 
 procedure TfmMain.ppmiEditClick(Sender: TObject);
@@ -485,6 +489,7 @@ begin
   finally
     fm.Free;
   end;
+  btnSave.Enabled := TRUE;
 end;
 
 procedure TfmMain.ppmiDeleteClick(Sender: TObject);
@@ -507,6 +512,7 @@ begin
       tvConfigs.DataController.EndFullUpdate;
     end;
     tvConfigs.DataController.CustomDataSource.DataChanged;
+    btnSave.Enabled := TRUE;
   end;
 end;
 
@@ -628,17 +634,24 @@ begin
   finally
     fm.Free;
   end;
+  btnSave.Enabled := TRUE;
 end;
 
 procedure TfmMain.ckbWriteToFileClick(Sender: TObject);
 begin
   ebReceivedLogsFile.Enabled := ckbWriteToFile.Checked;
+  btnSave.Enabled := TRUE;
 end;
 
 procedure TfmMain.ebReceivedLogsFileButtonClick(Sender: TObject);
 begin
   if sdLogs.Execute then
     ebReceivedLogsFile.Text := sdLogs.FileName;
+end;
+
+procedure TfmMain.ebCollectorExeChange(Sender: TObject);
+begin
+  btnSave.Enabled := TRUE;
 end;
 
 end.
