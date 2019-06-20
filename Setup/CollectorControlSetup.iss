@@ -14,7 +14,7 @@ LicenseFile=EULA.rtf
 SetupLogging=yes
 UninstallFilesDir={app}\uninstall
 AppCopyright=Copyright © The Hooded Claw 2018
-; SetupIconFile=TheIcon.ico
+SetupIconFile=TheIcon.ico
 ; VersionInfo values for file properties=
 VersionInfoCompany=The Hooded Claw
 VersionInfoCopyright=© The Hooded Claw 2018
@@ -35,6 +35,7 @@ ArchitecturesInstallIn64BitMode=x64
 ; ***** App files *****:
 Source: ".\CollectorControl.exe"; DestDir: "{app}"
 Source: ".\RelayClient.exe"; DestDir: "{app}"
+Source: ".\ChkptControllerInstructions.pdf"; DestDir: "{app}"
 
 [Icons]
 Name: {commonprograms}\The Hooded Claw\Checkpoint Collection Controler; Filename: {app}\CollectorControl.exe; WorkingDir: {app}
