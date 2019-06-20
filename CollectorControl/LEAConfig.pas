@@ -43,6 +43,9 @@ type
     FRelayMode: Boolean;
     FRelayIP: String;
     FRelayPort: WORD;
+    FAuditFWRecordHandler: Boolean;
+    FAuditFWField: String;
+    FAuditFWValue: String;
     procedure SetLEAServer(AValue: TLEAServer);
   public
     constructor Create(ALEAConfig: TLEAConfig = nil);
@@ -63,8 +66,10 @@ type
     property RelayMode: Boolean read FRelayMode write FRelayMode;
     property RelayIP: String read FRelayIP write FRelayIP;
     property RelayPort: WORD read FRelayPort write FRelayPort;
+    property AuditFWRecordHandler: Boolean read FAuditFWRecordHandler write FAuditFWRecordHandler;
+    property AuditFWField: String read FAuditFWField write FAuditFWField;
+    property AuditFWValue: String read FAuditFWValue write FAuditFWValue;
   end;
-
 
 implementation
 
@@ -111,6 +116,9 @@ begin
     FRelayMode := FALSE;
     FRelayIP := '127.0.0.1';
     FRelayPort := 322;
+    FAuditFWRecordHandler := FALSE;
+    FAuditFWField := String.Empty;
+    FAuditFWValue := String.Empty;
   end else
   begin
     FOpsecSicName := ALEAConfig.OpsecSicName;
@@ -126,14 +134,15 @@ begin
     FRelayMode := ALEAConfig.RelayMode;
     FRelayIP := ALEAConfig.RelayIP;
     FRelayPort := ALEAConfig.RelayPort;
+    FAuditFWRecordHandler := ALEAConfig.AuditFWRecordHandler;
+    FAuditFWField := ALEAConfig.AuditFWField;
+    FAuditFWValue := ALEAConfig.AuditFWValue;
   end;
 end;
 
 procedure TLEAConfig.SetLEAServer(AValue: TLEAServer);
-var
-  LTemp: TLEAServer;
 begin
-  LTemp := FLEAServer;
+  var LTemp := FLEAServer;
   FLEAServer := AValue;
   LTemp.Free;
 end;
@@ -187,6 +196,20 @@ begin
   Result.Add('');
   Result.Add('# Preallocated string size for log records (bytes)');
   Result.Add(String.Format('LogBufferSize=%d', [FLogBufferSize]));
+  Result.Add('');
+  Result.Add('# Use auditing FW Record Handler.');
+  Result.Add('# Only to be used with Collector Controller tool.');
+  if FAuditFWRecordHandler then
+  begin
+    Result.Add('FWAuditMode=True');
+    Result.Add(String.Format('FWAuditField=%s',[FAuditFWField]));
+    Result.Add(String.Format('FWAuditValue=%s',[FAuditFWValue]));
+  end else
+  begin
+    Result.Add('FWAuditMode=False');
+    Result.Add('FWAuditField=');
+    Result.Add('FWAuditValue=');
+  end;
   Result.Add('');
   Result.Add('# Put Collector In Relay Mode. Do this to play logs from dump file back through.');
   Result.Add('# Causes collector to bind to IP/Port as server listening for connections.');
@@ -276,6 +299,21 @@ begin
       LTemp := AValue[i].Replace('RelayMode=', '').Trim.DeQuotedString('"').ToUpper;
       FRelayMode := ('TRUE' = LTemp);
     end
+    else if -1 <> AValue[i].IndexOf('FWAuditMode=') then
+    begin
+      LTemp := AValue[i].Replace('FWAuditMode=', '').Trim.DeQuotedString('"').ToUpper;
+      FAuditFWRecordHandler  := ('TRUE' = LTemp);
+    end
+    else if -1 <> AValue[i].IndexOf('FWAuditField=') then
+    begin
+      LTemp := AValue[i].Replace('FWAuditField=', '').Trim.DeQuotedString('"');
+      FAuditFWField := LTemp;
+    end
+    else if -1 <> AValue[i].IndexOf('FWAuditValue=') then
+    begin
+      LTemp := AValue[i].Replace('FWAuditValue=', '').Trim.DeQuotedString('"');
+      FAuditFWValue := LTemp;
+    end
     else if -1 <> AValue[i].IndexOf('RelayIP=') then
     begin
       LTemp := AValue[i].Replace('RelayIP=', '').Trim.DeQuotedString('"');
@@ -290,10 +328,8 @@ begin
 end;
 
 procedure TLEAConfig.LoadFromFile(AValue: String);
-var
-  LFileLines: TStringList;
 begin
-  LFileLines := TStringList.Create;
+  var LFileLines := TStringList.Create;
   try
     LFileLines.LoadFromFile(AValue);
     FromStrings(LFileLines);
@@ -303,10 +339,8 @@ begin
 end;
 
 procedure TLEAConfig.SaveToFile(AValue: String);
-var
-  LFileLines: TStringList;
 begin
-  LFileLines := ToStrings as TStringList;
+  var LFileLines := ToStrings as TStringList;
   try
     LFileLines.SaveToFile(AValue);
   finally

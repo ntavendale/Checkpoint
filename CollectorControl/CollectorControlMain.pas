@@ -28,7 +28,8 @@ uses
   Vcl.ImgList, RzButton, CollectorConfig, RzBtnEdt, System.UITypes,
   System.Generics.Collections, System.SyncObjs, RzTabs, FileLogger,
   ControlChannel, ReceiverChannel, cxCheckBox, ConfFileEditor, RzRadChk,
-  dxSkinTheBezier, cxDataControllerConditionalFormattingRulesManagerDialog;
+  dxSkinTheBezier, cxDataControllerConditionalFormattingRulesManagerDialog,
+  dxDateRanges;
 
 type
   TMessageWriteProc = procedure(AValue: String) of Object;
@@ -433,7 +434,7 @@ end;
 
 procedure TfmMain.WriteCheckpointMessages(AValue: TStrings);
 begin
-  if memCheckpointLogs.Lines.Count > 10000 then
+  if memCheckpointLogs.Lines.Count > 1000 then
     memCheckpointLogs.Lines.Clear;
   memCheckpointLogs.Lines.AddStrings(AValue);
   if ckbWriteToFile.Checked then
@@ -534,6 +535,7 @@ procedure TfmMain.btnExitClick(Sender: TObject);
 begin
   Application.Terminate;
 end;
+
 procedure TfmMain.btnControlClick(Sender: TObject);
 begin
   if nil = TControlChannel.ControlChanel then
@@ -541,7 +543,7 @@ begin
     TControlChannel.ControlChanel := TControlChannel.Create(TControlerSettings.Settings.ControlHost, TControlerSettings.Settings.ControlPort);
     TControlChannel.ControlChanel.ThreadStart;
 
-    TReceiverChannel.ReceiverChanel := TReceiverChannel.Create(TControlerSettings.Settings.ReceiverHost, TControlerSettings.Settings.ReceiverPort, FCheckpoiintLogReceptionThread.AddMessages);
+    TReceiverChannel.ReceiverChanel := TReceiverChannel.Create(TControlerSettings.Settings.ReceiverHost, TControlerSettings.Settings.ReceiverPort, FCheckpoiintLogReceptionThread.AddMessages, FALSE);
     TReceiverChannel.ReceiverChanel.ThreadStart;
   end;
 end;

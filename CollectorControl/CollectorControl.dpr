@@ -1,6 +1,7 @@
 program CollectorControl;
 
 uses
+  {$IFDEF EurekaLog}
   EMemLeaks,
   EResLeaks,
   ESendAPIFogBugz,
@@ -12,6 +13,7 @@ uses
   EMapWin32,
   EAppVCL,
   ExceptionLog7,
+  {$ENDIF EurekaLog}
   Vcl.Forms,
   CollectorControlMain in 'CollectorControlMain.pas' {fmMain},
   BaseSocketServer in '..\Common\Units\BaseSocketServer.pas',
@@ -36,3 +38,4 @@ begin
   Application.CreateForm(TfmMain, fmMain);
   Application.Run;
 end.
+

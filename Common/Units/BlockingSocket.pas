@@ -230,13 +230,9 @@ begin
 end;
 
 function TRawBlockingSocket.SendMessage(AMsg: AnsiString): Integer;
-var
-  LMsg: PAnsiChar;
-  LLength: Integer;
 begin
-  Result := SOCKET_ERROR;
-  LLength := Length(AMsg);
-  GetMem(LMsg, LLength + 1);
+  var LLength := Length(AMsg);
+  var LMsg := AllocMem(Sizeof(AnsiChar) * (LLength + 1));
   try
     AnsiStrings.StrPCopy(LMsg, AMsg);
     Result := Send(FSocket, PByte(LMsg)^, LLength, 0);
@@ -331,7 +327,6 @@ begin
   except
     on E:Exception do
     begin
-      Result := 0;
       raise Exception.Create('Socket Error sending message');
     end;
   end;
@@ -345,22 +340,18 @@ begin
   except
     on E:Exception do
     begin
-      Result := 0;
       raise Exception.Create('Socket Error sending message');
     end;
   end;
 end;
 
 function TIndySecureBlockingSocket.SendMessage(AMsg: PByte; ALength: Integer): Integer;
-var
-  LBytes: TIdBytes;
-  LByte: PByte;
-  i: Integer;
 begin
+  var LBytes: TIdBytes;
   try
     SetLength(LBytes, ALength);
-    LByte := AMsg;
-    for i := 0 to ALength - 1 do
+    var LByte := AMsg;
+    for var i := 0 to ALength - 1 do
     begin
       LBytes[i] := LByte^;
       Inc(LByte);
@@ -370,7 +361,6 @@ begin
     SetLength(LBytes, 0);
     Result := ALength;
   except
-    Result := 0;
     raise Exception.Create('Socket Error sending message');
   end;
 end;

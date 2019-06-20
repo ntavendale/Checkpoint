@@ -27,7 +27,8 @@ uses
   Vcl.Menus, RzBtnEdt, Vcl.StdCtrls, Vcl.Mask, RzEdit, RzLabel, System.DateUtils,
   cxInplaceContainer, cxVGrid, LEASendThread, BlockingSocket, GetDate,
   GetMsgSrcID, System.Generics.Collections, System.SyncObjs, FileLogger,
-  dxSkinTheBezier, cxDataControllerConditionalFormattingRulesManagerDialog;
+  dxSkinTheBezier, cxDataControllerConditionalFormattingRulesManagerDialog,
+  dxDateRanges;
 
 type
   TMessageWriteProc = procedure(AValue: String) of Object;
@@ -565,7 +566,7 @@ begin
   else
   begin
     LRecordIndex := tvMessages.Controller.SelectedRecords[0].RecordIndex;
-    LMsg :=  TGridDataSource(tvMessages.DataController.CustomDataSource).Messages[LRecordIndex].Msg;
+    LMsg :=  String(TGridDataSource(tvMessages.DataController.CustomDataSource).Messages[LRecordIndex].Msg);
   end;
   DisplayMessage(LMsg);
 end;

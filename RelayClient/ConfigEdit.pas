@@ -4,8 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, BaseModalForm, RzButton,
-  RzPanel, Vcl.ExtCtrls, Vcl.StdCtrls, RzCmboBx, RzEdit, Vcl.Mask, RzLabel,
+  System.UITypes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, BaseModalForm,
+  RzButton, RzPanel, Vcl.ExtCtrls, Vcl.StdCtrls, RzCmboBx, RzEdit, Vcl.Mask, RzLabel,
   RelayClientConfig;
 
 type

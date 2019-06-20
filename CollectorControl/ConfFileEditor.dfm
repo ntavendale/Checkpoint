@@ -2,21 +2,19 @@ inherited fmConfFileEditor: TfmConfFileEditor
   Left = 890
   Top = 384
   Caption = 'LEA Config File Editor'
-  ClientHeight = 560
-  ClientWidth = 559
-  ExplicitLeft = 890
-  ExplicitTop = 384
-  ExplicitWidth = 575
-  ExplicitHeight = 598
+  ClientHeight = 620
+  ClientWidth = 552
+  ExplicitWidth = 558
+  ExplicitHeight = 648
   PixelsPerInch = 96
   TextHeight = 18
   inherited RzPanel1: TRzPanel
-    Width = 559
-    Height = 533
-    ExplicitWidth = 556
-    ExplicitHeight = 544
+    Width = 552
+    Height = 593
+    ExplicitWidth = 559
+    ExplicitHeight = 533
     inherited gbModal: TRzGroupBox
-      Width = 559
+      Width = 552
       Height = 233
       Align = alTop
       Caption = 'Opsec Settings'
@@ -120,28 +118,27 @@ inherited fmConfFileEditor: TfmConfFileEditor
     object gbAdditional: TRzGroupBox
       Left = 0
       Top = 233
-      Width = 559
-      Height = 300
+      Width = 552
+      Height = 360
       Align = alClient
       Caption = 'Additional Settings'
       TabOrder = 1
-      ExplicitTop = 209
-      ExplicitWidth = 556
-      ExplicitHeight = 335
+      ExplicitWidth = 559
+      ExplicitHeight = 300
       object vgAdditionalSettings: TcxVerticalGrid
         Left = 1
         Top = 19
-        Width = 557
-        Height = 280
+        Width = 550
+        Height = 340
         Align = alClient
-        OptionsView.RowHeaderWidth = 165
+        OptionsView.RowHeaderWidth = 189
         TabOrder = 0
-        ExplicitWidth = 554
-        ExplicitHeight = 315
+        ExplicitWidth = 557
+        ExplicitHeight = 280
         Version = 1
         object catRow: TcxCategoryRow
           Properties.Caption = 'Opsec Debug Options'
-          ID = 2
+          ID = 0
           ParentID = -1
           Index = 0
           Version = 1
@@ -151,7 +148,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
           Properties.EditPropertiesClassName = 'TcxCheckBoxProperties'
           Properties.DataBinding.ValueType = 'String'
           Properties.Value = Null
-          ID = 3
+          ID = 1
           ParentID = -1
           Index = 1
           Version = 1
@@ -160,7 +157,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
           Properties.Caption = 'OpsecDebugFile'
           Properties.DataBinding.ValueType = 'String'
           Properties.Value = Null
-          ID = 4
+          ID = 2
           ParentID = -1
           Index = 2
           Version = 1
@@ -170,7 +167,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
           Properties.EditPropertiesClassName = 'TcxCheckBoxProperties'
           Properties.DataBinding.ValueType = 'String'
           Properties.Value = Null
-          ID = 12
+          ID = 3
           ParentID = -1
           Index = 3
           Version = 1
@@ -186,8 +183,9 @@ inherited fmConfFileEditor: TfmConfFileEditor
             'Warning'
             'Info'
             'Debug')
+          Properties.DataBinding.ValueType = 'String'
           Properties.Value = Null
-          ID = 5
+          ID = 4
           ParentID = -1
           Index = 4
           Version = 1
@@ -199,7 +197,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
           Properties.EditProperties.MinValue = 1.000000000000000000
           Properties.DataBinding.ValueType = 'String'
           Properties.Value = Null
-          ID = 6
+          ID = 5
           ParentID = -1
           Index = 5
           Version = 1
@@ -211,7 +209,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
           Properties.EditProperties.MinValue = 1.000000000000000000
           Properties.DataBinding.ValueType = 'String'
           Properties.Value = Null
-          ID = 7
+          ID = 6
           ParentID = -1
           Index = 6
           Version = 1
@@ -223,7 +221,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
           Properties.EditProperties.MinValue = 256.000000000000000000
           Properties.DataBinding.ValueType = 'String'
           Properties.Value = Null
-          ID = 8
+          ID = 7
           ParentID = -1
           Index = 7
           Version = 1
@@ -233,7 +231,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
           Properties.EditPropertiesClassName = 'TcxCheckBoxProperties'
           Properties.DataBinding.ValueType = 'String'
           Properties.Value = Null
-          ID = 9
+          ID = 8
           ParentID = -1
           Index = 8
           Version = 1
@@ -242,7 +240,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
           Properties.Caption = 'RelayIP'
           Properties.DataBinding.ValueType = 'String'
           Properties.Value = Null
-          ID = 10
+          ID = 9
           ParentID = -1
           Index = 9
           Version = 1
@@ -254,22 +252,50 @@ inherited fmConfFileEditor: TfmConfFileEditor
           Properties.EditProperties.MinValue = 1.000000000000000000
           Properties.DataBinding.ValueType = 'String'
           Properties.Value = Null
-          ID = 11
+          ID = 10
           ParentID = -1
           Index = 10
+          Version = 1
+        end
+        object rowAuditFW: TcxEditorRow
+          Properties.Caption = 'Audit FW Record Handler'
+          Properties.EditPropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.DataBinding.ValueType = 'String'
+          Properties.Value = Null
+          ID = 11
+          ParentID = -1
+          Index = 11
+          Version = 1
+        end
+        object rowAuditFWFilterField: TcxEditorRow
+          Properties.Caption = 'Audit FW Filter Field'
+          Properties.DataBinding.ValueType = 'String'
+          Properties.Value = Null
+          ID = 12
+          ParentID = -1
+          Index = 12
+          Version = 1
+        end
+        object rowAuditFWFilterValue: TcxEditorRow
+          Properties.Caption = 'Audit FW Filter Value'
+          Properties.DataBinding.ValueType = 'String'
+          Properties.Value = Null
+          ID = 13
+          ParentID = -1
+          Index = 13
           Version = 1
         end
       end
     end
   end
   inherited pnBottom: TRzPanel
-    Top = 533
-    Width = 559
-    ExplicitTop = 544
-    ExplicitWidth = 556
+    Top = 593
+    Width = 552
+    ExplicitTop = 533
+    ExplicitWidth = 559
     inherited pnOKCancel: TRzPanel
-      Left = 397
-      ExplicitLeft = 394
+      Left = 390
+      ExplicitLeft = 397
     end
   end
   object odConf: TOpenDialog

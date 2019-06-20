@@ -173,15 +173,10 @@ begin
 end;
 
 class function TBaseSocketServer.SendTransmission(ASocket: TSocket; AMessage: String): Integer;
-var
-  LMsg: PAnsiChar;
-  LLength: Integer;
-  LString: AnsiString;
 begin
-  Result := SOCKET_ERROR;
-  LString := AnsiString(AMessage + Char($04));
-  LLength := Length(LString);
-  GetMem(LMsg, LLength + 1);
+  var LString := AnsiString(AMessage + Char($04));
+  var LLength := Length(LString);
+  var LMsg: PAnsiChar := AllocMem(SizeOf(AnsiChar) * (LLength + 1));
   try
     AnsiStrings.StrPCopy(LMsg, LString);
     Result := Send(ASocket, PByte(LMsg)^, LLength, 0);

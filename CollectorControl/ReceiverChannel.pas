@@ -16,13 +16,13 @@ type
   protected
     procedure ServiceConnection(AAcceptSocket: TSocket; AConnectingIP: String); override;
   public
-    constructor Create(AHost: String; APort: WORD; ACheckpointMessageProc: TCheckpointMessageProc; AProtocol: Integer = IPPROTO_TCP); reintroduce;
+    constructor Create(AHost: String; APort: WORD; ACheckpointMessageProc: TCheckpointMessageProc; AWriteToFile: Boolean; AProtocol: Integer = IPPROTO_TCP); reintroduce;
     class property ReceiverChanel: TReceiverChannel read FReceiverChannel write FReceiverChannel;
   end;
 
 implementation
 
-constructor TReceiverChannel.Create(AHost: String; APort: WORD; ACheckpointMessageProc: TCheckpointMessageProc; AProtocol: Integer = IPPROTO_TCP);
+constructor TReceiverChannel.Create(AHost: String; APort: WORD; ACheckpointMessageProc: TCheckpointMessageProc; AWriteToFile: Boolean; AProtocol: Integer = IPPROTO_TCP);
 begin
   inherited Create(AHost, APort, AProtocol);
   FCheckpointMessageProc := ACheckpointMessageProc;

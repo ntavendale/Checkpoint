@@ -1,6 +1,7 @@
 program RelayClient;
 
 uses
+  {$IFDEF EurekaLog}
   EMemLeaks,
   EResLeaks,
   ESendAPIFogBugz,
@@ -12,6 +13,7 @@ uses
   EMapWin32,
   EAppVCL,
   ExceptionLog7,
+  {$ENDIF EurekaLog}
   Vcl.Forms,
   RelayClientMain in 'RelayClientMain.pas' {fmMain},
   RelayClientConfig in 'RelayClientConfig.pas',
@@ -35,3 +37,4 @@ begin
   Application.CreateForm(TfmMain, fmMain);
   Application.Run;
 end.
+

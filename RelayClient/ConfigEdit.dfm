@@ -4,19 +4,21 @@ inherited fmConfigEdit: TfmConfigEdit
   Caption = 'Config'
   ClientHeight = 196
   ClientWidth = 406
-  ExplicitLeft = 1020
-  ExplicitTop = 489
-  ExplicitWidth = 422
-  ExplicitHeight = 234
+  ExplicitWidth = 412
+  ExplicitHeight = 224
   PixelsPerInch = 96
   TextHeight = 18
   inherited RzPanel1: TRzPanel
     Width = 406
     Height = 169
+    ExplicitWidth = 406
+    ExplicitHeight = 169
     inherited gbModal: TRzGroupBox
       Width = 406
       Height = 169
       Caption = 'Edit Settings'
+      ExplicitWidth = 406
+      ExplicitHeight = 169
       object RzLabel1: TRzLabel
         Left = 16
         Top = 32
@@ -84,8 +86,11 @@ inherited fmConfigEdit: TfmConfigEdit
   inherited pnBottom: TRzPanel
     Top = 169
     Width = 406
+    ExplicitTop = 169
+    ExplicitWidth = 406
     inherited pnOKCancel: TRzPanel
       Left = 244
+      ExplicitLeft = 244
     end
   end
 end

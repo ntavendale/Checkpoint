@@ -23,7 +23,8 @@ uses
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, cxInplaceContainer, cxDataStorage, cxVGrid,
   LEAConfig, cxDropDownEdit, cxCheckBox, cxButtonEdit,
-  dxNumericWheelPicker, cxSpinEdit, RzBtnEdt;
+  dxNumericWheelPicker, cxSpinEdit, RzBtnEdt,
+  cxDataControllerConditionalFormattingRulesManagerDialog, dxSkinTheBezier;
 
 type
   TfmConfFileEditor = class(TfmBaseModalForm)
@@ -54,6 +55,9 @@ type
     ebOpsecSslcaFile: TRzButtonEdit;
     odConf: TOpenDialog;
     sdConf: TSaveDialog;
+    rowAuditFW: TcxEditorRow;
+    rowAuditFWFilterField: TcxEditorRow;
+    rowAuditFWFilterValue: TcxEditorRow;
     procedure ebOpsecSslcaFileButtonClick(Sender: TObject);
   private
     { Private declarations }
@@ -138,6 +142,9 @@ begin
     rowRelayMode.Properties.Value := AConfig.RelayMode;
     rowRelayIP.Properties.Value := AConfig.RelayIP;
     rowRelayPort.Properties.Value := AConfig.RelayPort;
+    rowAuditFW.Properties.Value := AConfig.AuditFWRecordHandler;
+    rowAuditFWFilterField.Properties.Value := AConfig.AuditFWField;
+    rowAuditFWFilterValue.Properties.Value := AConfig.AuditFWValue;
   finally
     vgAdditionalSettings.EndUpdate;
   end;
@@ -168,6 +175,9 @@ begin
     AConfig.RelayMode := rowRelayMode.Properties.Value;
     AConfig.RelayIP := rowRelayIP.Properties.Value;
     AConfig.RelayPort := rowRelayPort.Properties.Value;
+    AConfig.AuditFWRecordHandler := rowAuditFW.Properties.Value;
+    AConfig.AuditFWField := rowAuditFWFilterField.Properties.Value;
+    AConfig.AuditFWValue := rowAuditFWFilterValue.Properties.Value;
   finally
     vgAdditionalSettings.EndUpdate;
   end;

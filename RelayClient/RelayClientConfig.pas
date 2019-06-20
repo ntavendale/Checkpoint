@@ -83,9 +83,6 @@ begin
 end;
 
 function TRelayClientConfig.EncodeToXmlDoc: IXMLDocument;
-var
-  LNodeElement, LNode: IXMLNode;
-  i: Integer;
 begin
   Result := TXMLDocument.Create(nil);
   Result.Active := True;
@@ -94,7 +91,7 @@ begin
   Result.Options := [doNodeAutoIndent];
 
   Result.DocumentElement := Result.CreateNode('RelayClient', ntElement, '');
-  LNodeElement := Result.DocumentElement.AddChild('Config', -1);
+  var LNodeElement := Result.DocumentElement.AddChild('Config', -1);
   LNodeElement.Attributes['Host'] := FHost;
   LNodeElement.Attributes['Port'] := IntToStr(FPort);
   LNodeElement.Attributes['LogLevel'] := IntToStr(FLogLevel);

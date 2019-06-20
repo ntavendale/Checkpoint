@@ -199,13 +199,9 @@ begin
 end;
 
 procedure TControlerSettings.DecodeFromXmlDoc(AXMLDocument: IXMLDocument);
-var
-  LNodeElement, LNode: IXMLNode;
-  LCfg: TCollectorConfig;
-  i: Integer;
 begin
   { Find a specific node. }
-  LNodeElement := AXmlDocument.DocumentElement.ChildNodes.FindNode('CollectorExe');
+  var LNodeElement := AXmlDocument.DocumentElement.ChildNodes.FindNode('CollectorExe');
   if (LNodeElement <> nil) then
   begin
     if (LNodeElement.HasAttribute('FullPath')) then
@@ -250,10 +246,10 @@ begin
   if LNodeElement.HasChildNodes then
   begin
     { Traverse child nodes. }
-    for i := 0 to LNodeElement.ChildNodes.Count - 1 do
+    for var i := 0 to LNodeElement.ChildNodes.Count - 1 do
     begin
-      LNode := LNodeElement.ChildNodes[i];
-      LCfg := TCollectorConfig.Create;
+      var LNode := LNodeElement.ChildNodes[i];
+      var LCfg := TCollectorConfig.Create;
       if LNode.HasAttribute('LEAConfFile') then
         LCfg.LEAConfigFile := LNode.Attributes['LEAConfFile'];
       if LNode.HasAttribute('MsgSrcID') then
@@ -271,9 +267,6 @@ begin
 end;
 
 function TControlerSettings.EncodeToXmlDoc: IXMLDocument;
-var
-  LNodeElement, LNode: IXMLNode;
-  i: Integer;
 begin
   Result := TXMLDocument.Create(nil);
   Result.Active := True;
@@ -282,7 +275,7 @@ begin
   Result.Options := [doNodeAutoIndent];
 
   Result.DocumentElement := Result.CreateNode('CollectorController', ntElement, '');
-  LNodeElement := Result.DocumentElement.AddChild('CollectorExe', -1);
+  var LNodeElement := Result.DocumentElement.AddChild('CollectorExe', -1);
   LNodeElement.Attributes['FullPath'] := FCollectorExe;
 
   LNodeElement := Result.DocumentElement.AddChild('ControlSocket', -1);
@@ -301,9 +294,9 @@ begin
   LNodeElement.Attributes['ReceivedLogFile'] := FReceivedLogFile;
 
   LNodeElement := Result.DocumentElement.AddChild('Collectors', -1);
-  for i := 0 to (FConfigs.Count - 1) do
+  for var i := 0 to (FConfigs.Count - 1) do
   begin
-    LNode := LNodeElement.AddChild('Collector');
+    var LNode := LNodeElement.AddChild('Collector');
     LNode.Attributes['LEAConfFile'] := FConfigs[i].LEAConfigFile;
     LNode.Attributes['MsgSrcID'] := IntToStr(FConfigs[i].MsgSourceID);
     LNode.Attributes['FileID'] := IntToStr(FConfigs[i].FileID);
@@ -316,10 +309,8 @@ begin
 end;
 
 class function TControlerSettings.GetDefaultConfigFile: String;
-var
-  LDir: String;
 begin
-  LDir := String.Format('%s\%s\%s\%s', [ExcludeTrailingPathDelimiter(GetCommonAppDataDir), 'HoodedClaw', 'Checkpoint', 'CollectorControl']);
+  var LDir := String.Format('%s\%s\%s\%s', [ExcludeTrailingPathDelimiter(GetCommonAppDataDir), 'HoodedClaw', 'Checkpoint', 'CollectorControl']);
   if not TDirectory.Exists(LDir) then
     TDirectory.CreateDirectory(LDir);
   Result := String.Format('%s\%s', [LDir, 'ControlCfg.xml']);
