@@ -2,6 +2,7 @@
 In order todownload and build you will need the following:
 
 Embarcadero Delphi 10 Seattle (Was built with Enterprise but with a little work the Pro edition will suffice).
+Should also build using community edition.
 
 Raize Comnponents Version 6.2.1
 
