@@ -107,10 +107,8 @@ type
     memLog: TRzMemo;
     tsCheckpointLogs: TRzTabSheet;
     memCheckpointLogs: TRzMemo;
-    btnControl: TRzBitBtn;
-    btnConnect: TRzButton;
-    btnDisconnect: TRzBitBtn;
-    btnCloseControlPorts: TRzBitBtn;
+    btnStartUp: TRzBitBtn;
+    btnShutdown: TRzBitBtn;
     colConfigsIsAudit: TcxGridColumn;
     ppmiEditConfig: TMenuItem;
     odConfFile: TOpenDialog;
@@ -124,10 +122,8 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure ebCollectorExeButtonClick(Sender: TObject);
     procedure btnExitClick(Sender: TObject);
-    procedure btnControlClick(Sender: TObject);
-    procedure btnConnectClick(Sender: TObject);
-    procedure btnDisconnectClick(Sender: TObject);
-    procedure btnCloseControlPortsClick(Sender: TObject);
+    procedure btnStartUpClick(Sender: TObject);
+    procedure btnShutdownClick(Sender: TObject);
     procedure ppmiEditConfigClick(Sender: TObject);
     procedure ckbWriteToFileClick(Sender: TObject);
     procedure ebReceivedLogsFileButtonClick(Sender: TObject);
@@ -188,14 +184,14 @@ end;
 
 procedure TTextMessageReceptionThread.Execute;
 var
-  LWaitObject: Cardinal;
   LEvents: array[0..1] of THandle;
 begin
   LEvents[0] := FFinishEvent;
   LEvents[1] := FMessageEvent;
+
   while not Terminated do
   begin
-    LWaitObject := WaitForMultipleObjects(2, @LEvents, FALSE, INFINITE);
+    var LWaitObject := WaitForMultipleObjects(2, @LEvents, FALSE, INFINITE);
     case (LWaitObject - WAIT_OBJECT_0) of
     0:begin
        BREAK;
@@ -220,10 +216,9 @@ end;
 
 procedure TTextMessageReceptionThread.WriteMessages;
 var
-  LNewList, LTempList: TList<String>;
-  i: Integer;
+  LTempList: TList<String>;
 begin
-  LNewList := TList<String>.Create;
+  var LNewList := TList<String>.Create;
   FCrticalSection.Acquire;
   try
     LTempList := FList;
@@ -231,16 +226,17 @@ begin
   finally
     FCrticalSection.Release;
   end;
+
   if Assigned(FMessagesWriteProc) then
   begin
     FCurrentLogMessages.Clear;
-    for i := 0 to (LTempList.Count - 1) do
+    for var i := 0 to (LTempList.Count - 1) do
       FCurrentLogMessages.Add(LTempList[i]);
     Synchronize(PushMessagesToMainThread);
   end
   else if Assigned(FMessageWriteProc) then
   begin
-    for i := 0 to (LTempList.Count - 1) do
+    for var i := 0 to (LTempList.Count - 1) do
     begin
       FCurrentLogMessage := LTempList[i];
       Synchronize(PushMessageToMainThread);
@@ -261,14 +257,11 @@ begin
 end;
 
 procedure TTextMessageReceptionThread.AddMessages(AValue: TStrings);
-var
-  i: Integer;
-  LLen: Integer;
 begin
-  LLen := AValue.Count;
+  var LLen := AValue.Count;
   FCrticalSection.Acquire;
   try
-    for i := 0 to (LLen - 1) do
+    for var i := 0 to (LLen - 1) do
       FList.Add(AValue[i]);
     SetEvent(FMessageEvent);
   finally
@@ -277,14 +270,11 @@ begin
 end;
 
 procedure TTextMessageReceptionThread.AddMessages(AValue: TArray<String>);
-var
-  i: Integer;
-  LLen: Integer;
 begin
-  LLen := Length(AValue);
+  var LLen := Length(AValue);
   FCrticalSection.Acquire;
   try
-    for i := 0 to (LLen - 1) do
+    for var i := 0 to (LLen - 1) do
       FList.Add(AValue[i]);
     SetEvent(FMessageEvent);
   finally
@@ -314,18 +304,14 @@ begin
 end;
 
 function TGridDataSource.GetValue(ARecordHandle: TcxDataRecordHandle; AItemHandle: TcxDataItemHandle): Variant;
-var
-  LRec: TCollectorConfig;
-  LCloumnIndex: Integer;
-  LRecordIndex: Integer;
 begin
   Result := NULL;
-  LRecordIndex := Integer(ARecordHandle);
-  LRec := FList[LRecordIndex];
+  var LRecordIndex := Integer(ARecordHandle);
+  var LRec := FList[LRecordIndex];
   if nil = LRec then
     EXIT;
 
-  LCloumnIndex := Integer(AItemHandle);
+  var LCloumnIndex := Integer(AItemHandle);
 
   case LCloumnIndex of
     0: Result := LRec.LEAConfigFile;
@@ -402,22 +388,18 @@ begin
 end;
 
 procedure TfmMain.LoadGrid(AList: TCollectorConfigList);
-var
-  LDS: TGridDataSource;
 begin
   tvConfigs.BeginUpdate(lsimImmediate);
   try
     if (nil <> tvConfigs.DataController.CustomDataSource) then
     begin
-      LDS := TGridDataSource(tvConfigs.DataController.CustomDataSource);
+      TGridDataSource(tvConfigs.DataController.CustomDataSource).Free;
       tvConfigs.DataController.CustomDataSource := nil;
-      LDS.Free;
     end;
 
     tvConfigs.DataController.BeginFullUpdate;
     try
-      LDS := TGridDataSource.Create(AList);
-      tvConfigs.DataController.CustomDataSource := LDS;
+      tvConfigs.DataController.CustomDataSource := TGridDataSource.Create(AList);
     finally
       tvConfigs.DataController.EndFullUpdate;
     end;
@@ -442,10 +424,8 @@ begin
 end;
 
 procedure TfmMain.ppmiNewClick(Sender: TObject);
-var
-  fm: TfmCollectorConfig;
 begin
-  fm := TfmCollectorConfig.Create(nil, nil);
+  var fm := TfmCollectorConfig.Create(nil, nil);
   try
     if mrOK = fm.ShowModal then
     begin
@@ -456,26 +436,23 @@ begin
         tvConfigs.DataController.EndFullUpdate;
       end;
       tvConfigs.DataController.CustomDataSource.DataChanged;
+      btnSave.Enabled := TRUE;
     end;
   finally
     fm.Free;
   end;
-  btnSave.Enabled := TRUE;
 end;
 
 procedure TfmMain.ppmiEditClick(Sender: TObject);
-var
-  fm: TfmCollectorConfig;
-  LIndex: Integer;
 begin
-  LIndex := tvConfigs.DataController.FocusedRecordIndex;
+  var LIndex := tvConfigs.DataController.FocusedRecordIndex;
   if LIndex < 0 then
   begin
     MessageDlg('You must select a Config.', mtError, [mbOK], 0);
     EXIT;
   end;
 
-  fm := TfmCollectorConfig.Create(nil, TGridDataSource(tvConfigs.DataController.CustomDataSource).List[LIndex]);
+  var fm := TfmCollectorConfig.Create(nil, TGridDataSource(tvConfigs.DataController.CustomDataSource).List[LIndex]);
   try
     if mrOK = fm.ShowModal then
     begin
@@ -486,18 +463,16 @@ begin
         tvConfigs.DataController.EndFullUpdate;
       end;
       tvConfigs.DataController.CustomDataSource.DataChanged;
+      btnSave.Enabled := TRUE;
     end;
   finally
     fm.Free;
   end;
-  btnSave.Enabled := TRUE;
 end;
 
 procedure TfmMain.ppmiDeleteClick(Sender: TObject);
-var
-  LIndex: Integer;
 begin
-  LIndex := tvConfigs.DataController.FocusedRecordIndex;
+  var LIndex := tvConfigs.DataController.FocusedRecordIndex;
   if LIndex < 0 then
   begin
     MessageDlg('You must select a Config.', mtError, [mbOK], 0);
@@ -521,7 +496,8 @@ procedure TfmMain.btnSaveClick(Sender: TObject);
 begin
   FormToController;
   TControlerSettings.Settings.Save;
-  MessageDlg(String.Format('Config saved to %s', [TControlerSettings.GetDefaultConfigFile]), mtConfirmation, [mbYes, mbNo], 0)
+  MessageDlg(String.Format('Config saved to %s', [TControlerSettings.GetDefaultConfigFile]), mtConfirmation, [mbYes, mbNo], 0);
+  btnSave.Enabled := FALSE;
 end;
 
 procedure TfmMain.ebCollectorExeButtonClick(Sender: TObject);
@@ -536,8 +512,21 @@ begin
   Application.Terminate;
 end;
 
-procedure TfmMain.btnControlClick(Sender: TObject);
+procedure TfmMain.btnStartUpClick(Sender: TObject);
 begin
+  if btnSave.Enabled then
+  begin
+    MessageDlg('You must save settings first.', mtError, [mbOK], 0);
+    EXIT;
+  end;
+
+  var LIndex := tvConfigs.DataController.FocusedRecordIndex;
+  if LIndex < 0 then
+  begin
+    MessageDlg('You must select a Config.', mtError, [mbOK], 0);
+    EXIT;
+  end;
+
   if nil = TControlChannel.ControlChanel then
   begin
     TControlChannel.ControlChanel := TControlChannel.Create(TControlerSettings.Settings.ControlHost, TControlerSettings.Settings.ControlPort);
@@ -546,35 +535,20 @@ begin
     TReceiverChannel.ReceiverChanel := TReceiverChannel.Create(TControlerSettings.Settings.ReceiverHost, TControlerSettings.Settings.ReceiverPort, FCheckpoiintLogReceptionThread.AddMessages, FALSE);
     TReceiverChannel.ReceiverChanel.ThreadStart;
   end;
-end;
 
-procedure TfmMain.btnConnectClick(Sender: TObject);
-var
-  LIndex: Integer;
-  LCFG: TCollectorConfig;
-begin
   if (nil = TControlChannel.ControlChanel) or (nil = TReceiverChannel.ReceiverChanel) then
   begin
     MessageDlg('Controller/Reciever not active. You must open a control port', mtError, [mbOK], 0);
     EXIT;
   end;
 
-  LIndex := tvConfigs.DataController.FocusedRecordIndex;
-  if LIndex < 0 then
-  begin
-    MessageDlg('You must select a Config.', mtError, [mbOK], 0);
-    EXIT;
-  end;
-
-  LCFG := TGridDataSource(tvConfigs.DataController.CustomDataSource).List[LIndex];
+  var LCFG := TGridDataSource(tvConfigs.DataController.CustomDataSource).List[LIndex];
   TControlChannel.ControlChanel.ConnectToLEA(TControlerSettings.Settings.CollectorExe, LCFG.LeaConfigFile, LCFG.MsgSourceID, LCFG.FileId, LCFG.FilePosition, LCFG.IsAudit);
   TControlChannel.ControlChanel.StartCollection(LCFG.MsgSourceID, TControlerSettings.Settings.ReceiverHost, TControlerSettings.Settings.ReceiverPort);
+
 end;
 
-procedure TfmMain.btnDisconnectClick(Sender: TObject);
-var
-  LIndex: Integer;
-  LCFG: TCollectorConfig;
+procedure TfmMain.btnShutdownClick(Sender: TObject);
 begin
   if (nil = TControlChannel.ControlChanel) or (nil = TReceiverChannel.ReceiverChanel) then
   begin
@@ -582,47 +556,54 @@ begin
     EXIT;
   end;
 
-  LIndex := tvConfigs.DataController.FocusedRecordIndex;
+  var LIndex := tvConfigs.DataController.FocusedRecordIndex;
   if LIndex < 0 then
   begin
     MessageDlg('You must select a Config.', mtError, [mbOK], 0);
     EXIT;
   end;
 
-  LCFG := TGridDataSource(tvConfigs.DataController.CustomDataSource).List[LIndex];
-  TControlChannel.ControlChanel.StopCollection(LCFG.MsgSourceID);
-end;
+  try
+    var LCFG := TGridDataSource(tvConfigs.DataController.CustomDataSource).List[LIndex];
+    TControlChannel.ControlChanel.StopCollection(LCFG.MsgSourceID);
+  except
+    on Ex:Exception do
+    begin
+      LogError( String.Format('Exception Stopping Collector: %s', [Ex.Message]) );
+    end;
+  end;
+  Sleep(100);
+  try
+    if nil <> TControlChannel.ControlChanel then
+    begin
+      TControlChannel.ControlChanel.ThreadStop(TRUE);
+      TReceiverChannel.ReceiverChanel.ThreadStop(TRUE);
+      LogInfo('Status: Not Lisening');
 
-procedure TfmMain.btnCloseControlPortsClick(Sender: TObject);
-begin
-  if nil <> TControlChannel.ControlChanel then
-  begin
-    TControlChannel.ControlChanel.ThreadStop(TRUE);
-    TReceiverChannel.ReceiverChanel.ThreadStop(TRUE);
-    LogInfo('Status: Not Lisening');
+      TControlChannel.ControlChanel.Free;
+      TControlChannel.ControlChanel := nil;
 
-    TControlChannel.ControlChanel.Free;
-    TControlChannel.ControlChanel := nil;
-
-    TReceiverChannel.ReceiverChanel.Free;
-    TReceiverChannel.ReceiverChanel := nil;
+      TReceiverChannel.ReceiverChanel.Free;
+      TReceiverChannel.ReceiverChanel := nil;
+    end;
+  except
+    on Ex:Exception do
+    begin
+      LogError(String.Format('Exception Closing Channel: %s', [Ex.Message]));
+    end;
   end;
 end;
 
 procedure TfmMain.ppmiEditConfigClick(Sender: TObject);
-var
-  fm: TfmConfFileEditor;
-  LConfFile: String;
-  LIndex: Integer;
 begin
-  LIndex := tvConfigs.DataController.FocusedRecordIndex;
+  var LIndex := tvConfigs.DataController.FocusedRecordIndex;
   if LIndex < 0 then
   begin
     MessageDlg('You must select a Config.', mtError, [mbOK], 0);
     EXIT;
   end;
 
-  LConfFile := TGridDataSource(tvConfigs.DataController.CustomDataSource).List[LIndex].LEAConfigFile;
+  var LConfFile := TGridDataSource(tvConfigs.DataController.CustomDataSource).List[LIndex].LEAConfigFile;
   if not FileExists(LConfFile) then
   begin
     LConfFile := String.Empty;
@@ -630,13 +611,24 @@ begin
       LConfFile := odConfFile.FileName;
   end;
 
-  fm := TfmConfFileEditor.Create(nil, LConfFile);
+  var fm := TfmConfFileEditor.Create(nil, LConfFile);
   try
-    fm.ShowModal;
+    if (mrOK = fm.ShowModal) then
+    begin
+      if fm.ConfigFile <> LConfFile then
+      begin
+        tvConfigs.DataController.BeginFullUpdate;
+        try
+          TGridDataSource(tvConfigs.DataController.CustomDataSource).List[LIndex].LEAConfigFile := fm.ConfigFile;
+        finally
+          tvConfigs.DataController.EndFullUpdate;
+        end;
+        tvConfigs.DataController.CustomDataSource.DataChanged;
+      end;
+    end;
   finally
     fm.Free;
   end;
-  btnSave.Enabled := TRUE;
 end;
 
 procedure TfmMain.ckbWriteToFileClick(Sender: TObject);

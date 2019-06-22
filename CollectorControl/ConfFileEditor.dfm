@@ -2,23 +2,23 @@ inherited fmConfFileEditor: TfmConfFileEditor
   Left = 890
   Top = 384
   Caption = 'LEA Config File Editor'
-  ClientHeight = 620
+  ClientHeight = 652
   ClientWidth = 552
   ExplicitWidth = 558
-  ExplicitHeight = 648
+  ExplicitHeight = 680
   PixelsPerInch = 96
   TextHeight = 18
   inherited RzPanel1: TRzPanel
     Width = 552
-    Height = 593
-    ExplicitWidth = 559
-    ExplicitHeight = 533
+    Height = 625
+    ExplicitWidth = 552
+    ExplicitHeight = 593
     inherited gbModal: TRzGroupBox
       Width = 552
       Height = 233
       Align = alTop
       Caption = 'Opsec Settings'
-      ExplicitWidth = 559
+      ExplicitWidth = 552
       ExplicitHeight = 233
       object opsec_sic_name: TRzLabel
         Left = 8
@@ -119,22 +119,20 @@ inherited fmConfFileEditor: TfmConfFileEditor
       Left = 0
       Top = 233
       Width = 552
-      Height = 360
+      Height = 392
       Align = alClient
       Caption = 'Additional Settings'
       TabOrder = 1
-      ExplicitWidth = 559
-      ExplicitHeight = 300
+      ExplicitHeight = 360
       object vgAdditionalSettings: TcxVerticalGrid
         Left = 1
         Top = 19
         Width = 550
-        Height = 340
+        Height = 372
         Align = alClient
         OptionsView.RowHeaderWidth = 189
         TabOrder = 0
-        ExplicitWidth = 557
-        ExplicitHeight = 280
+        ExplicitHeight = 340
         Version = 1
         object catRow: TcxCategoryRow
           Properties.Caption = 'Opsec Debug Options'
@@ -285,17 +283,27 @@ inherited fmConfFileEditor: TfmConfFileEditor
           Index = 13
           Version = 1
         end
+        object rowRecordHandlerLogging: TcxEditorRow
+          Properties.Caption = 'Record Handler Logging'
+          Properties.EditPropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.DataBinding.ValueType = 'String'
+          Properties.Value = Null
+          ID = 14
+          ParentID = -1
+          Index = 14
+          Version = 1
+        end
       end
     end
   end
   inherited pnBottom: TRzPanel
-    Top = 593
+    Top = 625
     Width = 552
-    ExplicitTop = 533
-    ExplicitWidth = 559
+    ExplicitTop = 593
+    ExplicitWidth = 552
     inherited pnOKCancel: TRzPanel
       Left = 390
-      ExplicitLeft = 397
+      ExplicitLeft = 390
     end
   end
   object odConf: TOpenDialog

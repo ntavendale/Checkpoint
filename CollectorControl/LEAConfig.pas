@@ -46,6 +46,7 @@ type
     FAuditFWRecordHandler: Boolean;
     FAuditFWField: String;
     FAuditFWValue: String;
+    FRecordHandlerLogging: Boolean;
     procedure SetLEAServer(AValue: TLEAServer);
   public
     constructor Create(ALEAConfig: TLEAConfig = nil);
@@ -69,6 +70,7 @@ type
     property AuditFWRecordHandler: Boolean read FAuditFWRecordHandler write FAuditFWRecordHandler;
     property AuditFWField: String read FAuditFWField write FAuditFWField;
     property AuditFWValue: String read FAuditFWValue write FAuditFWValue;
+    property RecordHandlerLogging: Boolean read FRecordHandlerLogging write FRecordHandlerLogging;
   end;
 
 implementation
@@ -119,6 +121,7 @@ begin
     FAuditFWRecordHandler := FALSE;
     FAuditFWField := String.Empty;
     FAuditFWValue := String.Empty;
+    FRecordHandlerLogging := FALSE;
   end else
   begin
     FOpsecSicName := ALEAConfig.OpsecSicName;
@@ -137,6 +140,7 @@ begin
     FAuditFWRecordHandler := ALEAConfig.AuditFWRecordHandler;
     FAuditFWField := ALEAConfig.AuditFWField;
     FAuditFWValue := ALEAConfig.AuditFWValue;
+    FRecordHandlerLogging := ALEAConfig.RecordHandlerLogging;
   end;
 end;
 
@@ -198,7 +202,6 @@ begin
   Result.Add(String.Format('LogBufferSize=%d', [FLogBufferSize]));
   Result.Add('');
   Result.Add('# Use auditing FW Record Handler.');
-  Result.Add('# Only to be used with Collector Controller tool.');
   if FAuditFWRecordHandler then
   begin
     Result.Add('FWAuditMode=True');
@@ -210,6 +213,12 @@ begin
     Result.Add('FWAuditField=');
     Result.Add('FWAuditValue=');
   end;
+  Result.Add('');
+  Result.Add('# Write Logs from Record Handlers. Requires Debug LogLevel');
+  if FRecordHandlerLogging then
+    Result.Add('RecordHandlerLogging=True')
+  else
+    Result.Add('RecordHandlerLogging=False');
   Result.Add('');
   Result.Add('# Put Collector In Relay Mode. Do this to play logs from dump file back through.');
   Result.Add('# Causes collector to bind to IP/Port as server listening for connections.');
@@ -313,6 +322,11 @@ begin
     begin
       LTemp := AValue[i].Replace('FWAuditValue=', '').Trim.DeQuotedString('"');
       FAuditFWValue := LTemp;
+    end
+    else if -1 <> AValue[i].IndexOf('RecordHandlerLogging=') then
+    begin
+      LTemp := AValue[i].Replace('RecordHandlerLogging=', '').Trim.DeQuotedString('"').ToUpper;
+      FRecordHandlerLogging  := ('TRUE' = LTemp);
     end
     else if -1 <> AValue[i].IndexOf('RelayIP=') then
     begin

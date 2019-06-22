@@ -58,10 +58,12 @@ type
     rowAuditFW: TcxEditorRow;
     rowAuditFWFilterField: TcxEditorRow;
     rowAuditFWFilterValue: TcxEditorRow;
+    rowRecordHandlerLogging: TcxEditorRow;
     procedure ebOpsecSslcaFileButtonClick(Sender: TObject);
   private
     { Private declarations }
     FConfig: TLEAConfig;
+    FConfFileName: String;
     procedure ObjectToForm;
     procedure FormToObject;
     procedure SetIndexDetailGrid(AConfig: TLEAConfig);
@@ -74,6 +76,7 @@ type
     constructor Create(AOwner: TComponent; AConfigFile: String); reintroduce;
     destructor Destroy; override;
     property Config: TLEAConfig read FConfig;
+    property ConfigFile: String read FConfFileName;
   end;
 
 implementation
@@ -145,6 +148,7 @@ begin
     rowAuditFW.Properties.Value := AConfig.AuditFWRecordHandler;
     rowAuditFWFilterField.Properties.Value := AConfig.AuditFWField;
     rowAuditFWFilterValue.Properties.Value := AConfig.AuditFWValue;
+    rowRecordHandlerLogging.Properties.Value := AConfig.RecordHandlerLogging;
   finally
     vgAdditionalSettings.EndUpdate;
   end;
@@ -178,6 +182,7 @@ begin
     AConfig.AuditFWRecordHandler := rowAuditFW.Properties.Value;
     AConfig.AuditFWField := rowAuditFWFilterField.Properties.Value;
     AConfig.AuditFWValue := rowAuditFWFilterValue.Properties.Value;
+    AConfig.RecordHandlerLogging := rowRecordHandlerLogging.Properties.Value;
   finally
     vgAdditionalSettings.EndUpdate;
   end;
@@ -189,6 +194,7 @@ begin
   FormToObject;
   if not sdConf.Execute then
     EXIT;
+  FConfFileName := sdConf.FileName;
   FConfig.SaveToFile(sdConf.FileName);
   Result := TRUE;
 end;

@@ -24,9 +24,6 @@ object fmMain: TfmMain
     Align = alTop
     Caption = 'Collector Exe'
     TabOrder = 0
-    ExplicitLeft = 24
-    ExplicitTop = 18
-    ExplicitWidth = 810
     object ebCollectorExe: TRzButtonEdit
       Left = 16
       Top = 24
@@ -50,7 +47,6 @@ object fmMain: TfmMain
     Align = alTop
     Caption = 'Socket Settings'
     TabOrder = 1
-    ExplicitWidth = 810
     object RzLabel1: TRzLabel
       Left = 16
       Top = 24
@@ -121,6 +117,7 @@ object fmMain: TfmMain
       FrameVisible = True
       MaxLength = 65536
       TabOrder = 3
+      OnChange = ebCollectorExeChange
       Max = 1.000000000000000000
       Min = 1.000000000000000000
       DisplayFormat = '0'
@@ -181,36 +178,22 @@ object fmMain: TfmMain
         GridView = tvConfigs
       end
     end
-    object btnControl: TRzBitBtn
+    object btnStartUp: TRzBitBtn
       Left = 1
       Top = 199
-      Hint = 'Open Control Channnel'
-      Caption = 'Control'
+      Hint = 'Start Collector'
+      Caption = 'Startup'
       ParentShowHint = False
       ShowHint = True
       TabOrder = 1
-      OnClick = btnControlClick
+      OnClick = btnStartUpClick
     end
-    object btnConnect: TRzButton
-      Left = 82
+    object btnShutdown: TRzBitBtn
+      Left = 91
       Top = 199
-      Caption = 'Connect'
+      Caption = 'Shutdown'
       TabOrder = 2
-      OnClick = btnConnectClick
-    end
-    object btnDisconnect: TRzBitBtn
-      Left = 163
-      Top = 199
-      Caption = 'Disconnect'
-      TabOrder = 3
-      OnClick = btnDisconnectClick
-    end
-    object btnCloseControlPorts: TRzBitBtn
-      Left = 244
-      Top = 199
-      Caption = 'Close'
-      TabOrder = 4
-      OnClick = btnCloseControlPortsClick
+      OnClick = btnShutdownClick
     end
   end
   object pnBottom: TPanel
@@ -222,7 +205,7 @@ object fmMain: TfmMain
     BevelOuter = bvNone
     TabOrder = 3
     object btnSave: TRzBitBtn
-      Left = 629
+      Left = 670
       Top = 6
       Caption = 'Save'
       TabOrder = 0
@@ -281,7 +264,7 @@ object fmMain: TfmMain
       NumGlyphs = 2
     end
     object btnExit: TRzBitBtn
-      Left = 718
+      Left = 751
       Top = 6
       Caption = 'Exit'
       TabOrder = 1
@@ -350,17 +333,9 @@ object fmMain: TfmMain
     Align = alClient
     TabIndex = 1
     TabOrder = 4
-    ExplicitLeft = 48
-    ExplicitTop = 520
-    ExplicitWidth = 300
-    ExplicitHeight = 150
     FixedDimension = 24
     object tsLog: TRzTabSheet
       Caption = 'Log'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object memLog: TRzMemo
         Left = 0
         Top = 0
@@ -382,10 +357,6 @@ object fmMain: TfmMain
     end
     object tsCheckpointLogs: TRzTabSheet
       Caption = 'Checkpoint Logs'
-      ExplicitLeft = 0
-      ExplicitTop = 28
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object memCheckpointLogs: TRzMemo
         Left = 0
         Top = 0
@@ -412,9 +383,6 @@ object fmMain: TfmMain
         Align = alBottom
         BorderOuter = fsNone
         TabOrder = 1
-        ExplicitLeft = 40
-        ExplicitTop = 216
-        ExplicitWidth = 185
         object ckbWriteToFile: TRzCheckBox
           Left = 15
           Top = 2

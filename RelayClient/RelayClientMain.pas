@@ -147,18 +147,14 @@ begin
 end;
 
 function TGridDataSource.GetValue(ARecordHandle: TcxDataRecordHandle; AItemHandle: TcxDataItemHandle): Variant;
-var
-  LRec: TLeaMsg;
-  LCloumnIndex: Integer;
-  LRecordIndex: Integer;
 begin
   Result := NULL;
-  LRecordIndex := Integer(ARecordHandle);
-  LRec := FList[LRecordIndex];
+  var LRecordIndex := Integer(ARecordHandle);
+  var LRec := FList[LRecordIndex];
   if nil = LRec then
     EXIT;
 
-  LCloumnIndex := Integer(AItemHandle);
+  var LCloumnIndex := Integer(AItemHandle);
 
   case LCloumnIndex of
     0: Result := LRec.MsgSrcID;
@@ -202,14 +198,13 @@ end;
 
 procedure TTextMessageReceptionThread.Execute;
 var
-  LWaitObject: Cardinal;
   LEvents: array[0..1] of THandle;
 begin
   LEvents[0] := FFinishEvent;
   LEvents[1] := FMessageEvent;
   while not Terminated do
   begin
-    LWaitObject := WaitForMultipleObjects(2, @LEvents, FALSE, INFINITE);
+    var LWaitObject := WaitForMultipleObjects(2, @LEvents, FALSE, INFINITE);
     case (LWaitObject - WAIT_OBJECT_0) of
     0:begin
        BREAK;
@@ -235,7 +230,6 @@ end;
 procedure TTextMessageReceptionThread.WriteMessages;
 var
   LNewList, LTempList: TList<String>;
-  i: Integer;
 begin
   LNewList := TList<String>.Create;
   FCrticalSection.Acquire;
@@ -248,13 +242,13 @@ begin
   if Assigned(FMessagesWriteProc) then
   begin
     FCurrentLogMessages.Clear;
-    for i := 0 to (LTempList.Count - 1) do
+    for var i := 0 to (LTempList.Count - 1) do
       FCurrentLogMessages.Add(LTempList[i]);
     Synchronize(PushMessagesToMainThread);
   end
   else if Assigned(FMessageWriteProc) then
   begin
-    for i := 0 to (LTempList.Count - 1) do
+    for var i := 0 to (LTempList.Count - 1) do
     begin
       FCurrentLogMessage := LTempList[i];
       Synchronize(PushMessageToMainThread);
@@ -336,25 +330,20 @@ begin
 end;
 
 procedure TfmMain.DisplayMessage(AMessage: String);
-var
-  myCat : TcxCategoryRow;
-  myRow : TcxEditorRow;
-  LMsgArray, LFieldArray: TArray<String>;
-  i, LLen: Integer;
 begin
-  LMsgArray := AMessage.Split(['|']);
-  LLen := Length(LMsgArray);
+  var LMsgArray := AMessage.Split(['|']);
+  var LLen := Length(LMsgArray);
   vgMsgDetail.BeginUpdate;
   try
     vgMsgDetail.ClearRows;
 
-    myCat := vgMsgDetail.Add( TcxCategoryRow ) As TcxCategoryRow;
+    var myCat := vgMsgDetail.Add( TcxCategoryRow ) As TcxCategoryRow;
     myCat.Properties.Caption := 'Message Detail';
 
-    for i := 0 to (LLen - 1) do
+    for var i := 0 to (LLen - 1) do
     begin
-      LFieldArray := LMsgArray[i].Split(['=']);
-      myRow := vgMsgDetail.Add( TcxEditorRow ) as TcxEditorRow;
+      var LFieldArray := LMsgArray[i].Split(['=']);
+      var myRow := vgMsgDetail.Add( TcxEditorRow ) as TcxEditorRow;
       myRow.Properties.Caption := LFieldArray[0];
       myRow.Properties.DataBinding.ValueTypeClass := TcxStringValueType;
       if (2 = Length(LFieldArray)) and (not String.IsNullOrWhiteSpace(LFieldArray[1])) then
@@ -367,22 +356,18 @@ begin
 end;
 
 procedure TfmMain.LoadGrid(AMsgList: TLeaMsgList);
-var
-  LDS: TGridDataSource;
 begin
   tvMessages.BeginUpdate(lsimImmediate);
   try
     if (nil <> tvMessages.DataController.CustomDataSource) then
     begin
-      LDS := TGridDataSource(tvMessages.DataController.CustomDataSource);
+      TGridDataSource(tvMessages.DataController.CustomDataSource).Free;
       tvMessages.DataController.CustomDataSource := nil;
-      LDS.Free;
     end;
 
     tvMessages.DataController.BeginFullUpdate;
     try
-      LDS := TGridDataSource.Create(AMsgList);
-      tvMessages.DataController.CustomDataSource := LDS;
+      tvMessages.DataController.CustomDataSource := TGridDataSource.Create(AMsgList);
     finally
       tvMessages.DataController.EndFullUpdate;
     end;
@@ -398,14 +383,12 @@ begin
 end;
 
 procedure TfmMain.btnebFileButtonClick(Sender: TObject);
-var
-  LMsgList: TLeaMsgList;
 begin
   if odFile.Execute then
     btnebFile.Text := odFile.FileName;
   Screen.Cursor := crHourglass;
   try
-    LMsgList := TLeaMsgList.Create;
+    var LMsgList := TLeaMsgList.Create;
     try
       LMsgList.LoadFromFile(odFile.FileName);
       LoadGrid(LMsgList);
@@ -421,30 +404,26 @@ end;
 procedure TfmMain.ppmiSendToRelayClick(Sender: TObject);
 var
   LMessage: AnsiString;
-  i, LRecordIndex: Integer;
-  LBuff, LBuffPointer: PByte;
-  LBuffSize: Integer;
-  LSocket: TBlockingTCPSocket;
 begin
   LMessage := '';
-  for i := 0 to (tvMessages.Controller.SelectedRecordCount - 1) do
+  for var i := 0 to (tvMessages.Controller.SelectedRecordCount - 1) do
   begin
-    LRecordIndex := tvMessages.Controller.SelectedRecords[i].RecordIndex;
+    var LRecordIndex := tvMessages.Controller.SelectedRecords[i].RecordIndex;
     LMessage := LMessage + AnsiString(TGridDataSource(tvMessages.DataController.CustomDataSource).Messages[LRecordIndex].Msg) + AnsiChar(#03);
   end;
   if '' = LMessage then
     EXIT;
   LMessage := LMessage + #04;
-  LBuffSize := Length(LMessage);
-  LBuff := AllocMem(LBuffSize);
-  LBuffPointer := LBuff;
+  var LBuffSize := Length(LMessage);
+  var LBuff: PByte := AllocMem(LBuffSize);
+  var LBuffPointer := LBuff;
   try
-    for i := 1 to LBuffSize do
+    for var i := 1 to LBuffSize do
     begin
       LBuffPointer^ := Byte(LMessage[i]);
       Inc(LBuffPointer);
     end;
-    LSocket := TBlockingTCPSocket.Create(TRelayClientConfig.Config.Host, TRelayClientConfig.Config.Port);
+    var LSocket := TBlockingTCPSocket.Create(TRelayClientConfig.Config.Host, TRelayClientConfig.Config.Port);
     try
       LSocket.ConnectSocket;
       LSocket.SendMessage(LBuff, LBuffSize);
@@ -458,19 +437,16 @@ begin
 end;
 
 procedure TfmMain.ppmiSetDateClick(Sender: TObject);
-var
-  fm: TfmGetDate;
-  i, LRecordIndex: Integer;
 begin
-  fm := TfmGetDate.Create(nil);
+  var fm := TfmGetDate.Create(nil);
   try
     if (mrOK = fm.ShowModal) then
     begin
       tvMessages.DataController.BeginFullUpdate;
       try
-        for i := 0 to (tvMessages.Controller.SelectedRecordCount - 1) do
+        for var i := 0 to (tvMessages.Controller.SelectedRecordCount - 1) do
         begin
-          LRecordIndex := tvMessages.Controller.SelectedRecords[i].RecordIndex;
+          var LRecordIndex := tvMessages.Controller.SelectedRecords[i].RecordIndex;
           TGridDataSource(tvMessages.DataController.CustomDataSource).Messages[LRecordIndex].LocalDateTime := fm.SelectedDate + TimeOf(TGridDataSource(tvMessages.DataController.CustomDataSource).Messages[LRecordIndex].LocalDateTime);
         end;
       finally
@@ -484,19 +460,16 @@ begin
 end;
 
 procedure TfmMain.ppmiSetMsgSrcIDClick(Sender: TObject);
-var
-  fm: TfmGetMsgSrcID;
-  i, LRecordIndex: Integer;
 begin
-  fm := TfmGetMsgSrcID.Create(nil);
+  var fm := TfmGetMsgSrcID.Create(nil);
   try
     if (mrOK = fm.ShowModal) then
     begin
       tvMessages.DataController.BeginFullUpdate;
       try
-        for i := 0 to (tvMessages.Controller.SelectedRecordCount - 1) do
+        for var i := 0 to (tvMessages.Controller.SelectedRecordCount - 1) do
         begin
-          LRecordIndex := tvMessages.Controller.SelectedRecords[i].RecordIndex;
+          var LRecordIndex := tvMessages.Controller.SelectedRecords[i].RecordIndex;
           TGridDataSource(tvMessages.DataController.CustomDataSource).Messages[LRecordIndex].MsgSrcID := fm.MsgSrcID;
         end;
       finally
@@ -510,19 +483,16 @@ begin
 end;
 
 procedure TfmMain.ppmiSendWithRepeatClick(Sender: TObject);
-var
-  LMessage: AnsiString;
-  i, LRecordIndex: Integer;
 begin
   if nil = FSendThread then
   begin
-    LMessage := '';
-    for i := 0 to (tvMessages.Controller.SelectedRecordCount - 1) do
+    var LMessage: String := String.Empty;
+    for var i := 0 to (tvMessages.Controller.SelectedRecordCount - 1) do
     begin
-      LRecordIndex := tvMessages.Controller.SelectedRecords[i].RecordIndex;
-      LMessage := LMessage + AnsiString(TGridDataSource(tvMessages.DataController.CustomDataSource).Messages[LRecordIndex].Msg) + AnsiChar(#03);
+      var LRecordIndex := tvMessages.Controller.SelectedRecords[i].RecordIndex;
+      LMessage := LMessage + String(AnsiString(TGridDataSource(tvMessages.DataController.CustomDataSource).Messages[LRecordIndex].Msg)) + String(AnsiChar(#03));
     end;
-    if '' = LMessage then
+    if String.IsNullOrWhiteSpace(LMessage) then
       EXIT;
     LMessage := LMessage + #04;
     FSendThread := TLEASendThread.Create(LMessage, TRelayClientConfig.Config.Host, TRelayClientConfig.Config.Port, neRepeat.IntValue);
@@ -538,10 +508,8 @@ begin
 end;
 
 procedure TfmMain.RelayClientConfig1Click(Sender: TObject);
-var
-  fm: TfmConfigEdit;
 begin
-  fm := TfmConfigEdit.Create(nil, TRelayClientConfig.Config);
+  var fm := TfmConfigEdit.Create(nil, TRelayClientConfig.Config);
   try
     if mrOK = fm.ShowModal then
     begin
@@ -557,15 +525,11 @@ begin
 end;
 
 procedure TfmMain.tvMessagesSelectionChanged(Sender: TcxCustomGridTableView);
-var
-  LMsg: String;
-  LRecordIndex: Integer;
 begin
-  if 0 = tvMessages.Controller.SelectedRecordCount then
-    LMsg := String.Empty
-  else
+  var LMsg: String := String.Empty;
+  if 0 <> tvMessages.Controller.SelectedRecordCount then
   begin
-    LRecordIndex := tvMessages.Controller.SelectedRecords[0].RecordIndex;
+    var LRecordIndex := tvMessages.Controller.SelectedRecords[0].RecordIndex;
     LMsg :=  String(TGridDataSource(tvMessages.DataController.CustomDataSource).Messages[LRecordIndex].Msg);
   end;
   DisplayMessage(LMsg);
