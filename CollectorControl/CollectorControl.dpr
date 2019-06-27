@@ -24,7 +24,7 @@ uses
   ControlChannel in 'ControlChannel.pas',
   ReceiverChannel in 'ReceiverChannel.pas',
   ConfFileEditor in 'ConfFileEditor.pas' {fmConfFileEditor},
-  LEAConfig in 'LEAConfig.pas',
+  LEAConfig in '..\Common\Units\LEAConfig.pas',
   CommonFunctions in '..\Common\Units\CommonFunctions.pas',
   CustomThread in '..\Common\Units\CustomThread.pas',
   FileLogger in '..\Common\Units\FileLogger.pas',

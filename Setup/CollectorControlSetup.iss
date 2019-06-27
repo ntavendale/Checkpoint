@@ -33,11 +33,13 @@ ArchitecturesInstallIn64BitMode=x64
 
 [Files]
 ; ***** App files *****:
+Source: ".\chkptconfig.exe"; DestDir: "{app}"
 Source: ".\CollectorControl.exe"; DestDir: "{app}"
 Source: ".\RelayClient.exe"; DestDir: "{app}"
 Source: ".\ChkptControllerInstructions.pdf"; DestDir: "{app}"
 
 [Icons]
+Name: {commonprograms}\The Hooded Claw\Checkpoint Config Editor; Filename: {app}\chkptconfig.exe; WorkingDir: {app}
 Name: {commonprograms}\The Hooded Claw\Checkpoint Collection Controler; Filename: {app}\CollectorControl.exe; WorkingDir: {app}
 Name: {commonprograms}\The Hooded Claw\Checkpoint Relay CLient; Filename: {app}\RelayClient.exe; WorkingDir: {app}
 

@@ -9,6 +9,9 @@
         <Projects Include="RelayClient\RelayClient.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="config\chkptconfig.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="RelayClient:Make">
         <MSBuild Projects="RelayClient\RelayClient.dproj" Targets="Make"/>
     </Target>
+    <Target Name="chkptconfig">
+        <MSBuild Projects="config\chkptconfig.dproj"/>
+    </Target>
+    <Target Name="chkptconfig:Clean">
+        <MSBuild Projects="config\chkptconfig.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="chkptconfig:Make">
+        <MSBuild Projects="config\chkptconfig.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="CollectorControl;RelayClient"/>
+        <CallTarget Targets="CollectorControl;RelayClient;chkptconfig"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CollectorControl:Clean;RelayClient:Clean"/>
+        <CallTarget Targets="CollectorControl:Clean;RelayClient:Clean;chkptconfig:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CollectorControl:Make;RelayClient:Make"/>
+        <CallTarget Targets="CollectorControl:Make;RelayClient:Make;chkptconfig:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
