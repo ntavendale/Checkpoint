@@ -47,6 +47,7 @@ type
     FAuditFWField: String;
     FAuditFWValue: String;
     FRecordHandlerLogging: Boolean;
+    FLogTrack: String;
     procedure SetLEAServer(AValue: TLEAServer);
   public
     constructor Create(ALEAConfig: TLEAConfig = nil);
@@ -71,6 +72,7 @@ type
     property AuditFWField: String read FAuditFWField write FAuditFWField;
     property AuditFWValue: String read FAuditFWValue write FAuditFWValue;
     property RecordHandlerLogging: Boolean read FRecordHandlerLogging write FRecordHandlerLogging;
+    property LogTrack: String read FLogTrack write FLogTrack;
   end;
 
 implementation
@@ -122,6 +124,7 @@ begin
     FAuditFWField := String.Empty;
     FAuditFWValue := String.Empty;
     FRecordHandlerLogging := FALSE;
+    FLogTrack := 'Normal';
   end else
   begin
     FOpsecSicName := ALEAConfig.OpsecSicName;
@@ -141,6 +144,7 @@ begin
     FAuditFWField := ALEAConfig.AuditFWField;
     FAuditFWValue := ALEAConfig.AuditFWValue;
     FRecordHandlerLogging := ALEAConfig.RecordHandlerLogging;
+    FLogTrack := ALEAConfig.LogTrack;
   end;
 end;
 
@@ -219,6 +223,17 @@ begin
     Result.Add('RecordHandlerLogging=True')
   else
     Result.Add('RecordHandlerLogging=False');
+  Result.Add('');
+  Result.Add('# How to handle log fragments. ');
+  Result.Add('# Normal: Default mode for backward compatability with ver 4.1. Same as Semi, but whith some minor midifications (docs don''t say what those are). ');
+  Result.Add('# Unified: When a chain is read all it''s fragements are sent. If a new frament coome in, it is not sent. ');
+  Result.Add('# Semi: When a chain is read all it''s fragements are sent. Any new framents are sent separately. ');
+  Result.Add('# Raw: Each fragment sent individully to the record handler ');
+  if String.IsNullOrWhiteSpace(FLogTrack) then
+    Result.Add('LogTrack=Normal ')
+  else
+    Result.Add(String.Format('LogTrack=%s ', [FLogTrack]));
+
   Result.Add('');
   Result.Add('# Put Collector In Relay Mode. Do this to play logs from dump file back through.');
   Result.Add('# Causes collector to bind to IP/Port as server listening for connections.');
@@ -327,6 +342,14 @@ begin
     begin
       LTemp := AValue[i].Replace('RecordHandlerLogging=', '').Trim.DeQuotedString('"').ToUpper;
       FRecordHandlerLogging  := ('TRUE' = LTemp);
+    end
+    else if -1 <> AValue[i].IndexOf('LogTrack=') then
+    begin
+      LTemp := AValue[i].Replace('LogTrack=', '').Trim.DeQuotedString('"');
+      if ('Semi'<>LTemp) and ('Unified'<>LTemp) and ('Raw'<>LTemp) then
+        FLogTrack := 'Normal'
+      else
+        FLogTrack := LTemp;
     end
     else if -1 <> AValue[i].IndexOf('RelayIP=') then
     begin

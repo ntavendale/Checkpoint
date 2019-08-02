@@ -9,13 +9,13 @@ object fmMain: TfmMain
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -15
-  Font.Name = 'Calibri'
+  Font.Height = -11
+  Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
   PixelsPerInch = 96
-  TextHeight = 18
+  TextHeight = 13
   object gbCollector: TRzGroupBox
     Left = 0
     Top = 0
@@ -28,7 +28,7 @@ object fmMain: TfmMain
       Left = 16
       Top = 24
       Width = 777
-      Height = 26
+      Height = 21
       Text = ''
       FrameStyle = fsBump
       FrameVisible = True
@@ -50,36 +50,36 @@ object fmMain: TfmMain
     object RzLabel1: TRzLabel
       Left = 16
       Top = 24
-      Width = 77
-      Height = 18
+      Width = 60
+      Height = 13
       Caption = 'Control Host'
     end
     object RzLabel2: TRzLabel
       Left = 256
       Top = 24
-      Width = 75
-      Height = 18
+      Width = 58
+      Height = 13
       Caption = 'Control Port'
     end
     object RzLabel3: TRzLabel
       Left = 368
       Top = 24
-      Width = 85
-      Height = 18
+      Width = 67
+      Height = 13
       Caption = 'Receiver Host'
     end
     object RzLabel4: TRzLabel
       Left = 608
       Top = 24
-      Width = 83
-      Height = 18
+      Width = 65
+      Height = 13
       Caption = 'Receiver Port'
     end
     object ebControlHost: TRzEdit
       Left = 16
       Top = 48
       Width = 209
-      Height = 26
+      Height = 21
       Text = ''
       FrameStyle = fsBump
       FrameVisible = True
@@ -90,7 +90,7 @@ object fmMain: TfmMain
       Left = 256
       Top = 48
       Width = 75
-      Height = 26
+      Height = 21
       FrameStyle = fsBump
       FrameVisible = True
       TabOrder = 1
@@ -101,7 +101,7 @@ object fmMain: TfmMain
       Left = 368
       Top = 48
       Width = 209
-      Height = 26
+      Height = 21
       Text = ''
       FrameStyle = fsBump
       FrameVisible = True
@@ -112,7 +112,7 @@ object fmMain: TfmMain
       Left = 608
       Top = 48
       Width = 75
-      Height = 26
+      Height = 21
       FrameStyle = fsBump
       FrameVisible = True
       MaxLength = 65536
@@ -133,7 +133,7 @@ object fmMain: TfmMain
     TabOrder = 2
     object gConfigs: TcxGrid
       Left = 1
-      Top = 19
+      Top = 14
       Width = 834
       Height = 174
       Align = alTop
@@ -329,18 +329,18 @@ object fmMain: TfmMain
     Width = 836
     Height = 308
     Hint = ''
-    ActivePage = tsCheckpointLogs
+    ActivePage = tsLog
     Align = alClient
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 4
-    FixedDimension = 24
+    FixedDimension = 19
     object tsLog: TRzTabSheet
       Caption = 'Log'
       object memLog: TRzMemo
         Left = 0
         Top = 0
         Width = 832
-        Height = 280
+        Height = 285
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -361,7 +361,7 @@ object fmMain: TfmMain
         Left = 0
         Top = 0
         Width = 832
-        Height = 239
+        Height = 244
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -369,6 +369,7 @@ object fmMain: TfmMain
         Font.Name = 'Courier New'
         Font.Style = []
         ParentFont = False
+        PopupMenu = ppmSaveToFile
         ScrollBars = ssBoth
         TabOrder = 0
         WordWrap = False
@@ -377,7 +378,7 @@ object fmMain: TfmMain
       end
       object RzPanel1: TRzPanel
         Left = 0
-        Top = 239
+        Top = 244
         Width = 832
         Height = 41
         Align = alBottom
@@ -386,8 +387,8 @@ object fmMain: TfmMain
         object ckbWriteToFile: TRzCheckBox
           Left = 15
           Top = 2
-          Width = 97
-          Height = 20
+          Width = 79
+          Height = 15
           Caption = 'Write To File'
           HotTrack = True
           State = cbUnchecked
@@ -398,7 +399,7 @@ object fmMain: TfmMain
           Left = 121
           Top = 2
           Width = 704
-          Height = 26
+          Height = 21
           Text = ''
           TabOrder = 1
           OnChange = ebCollectorExeChange
@@ -726,5 +727,13 @@ object fmMain: TfmMain
     Filter = 'Text Files (*.txt)|*.txt|All Files (*.*)|*.*'
     Left = 673
     Top = 634
+  end
+  object ppmSaveToFile: TPopupMenu
+    Left = 249
+    Top = 501
+    object ppmiSaveToFile: TMenuItem
+      Caption = 'Save To File'
+      OnClick = ppmiSaveToFileClick
+    end
   end
 end

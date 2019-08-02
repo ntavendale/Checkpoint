@@ -4,67 +4,66 @@ inherited fmCollectorConfig: TfmCollectorConfig
   Caption = 'Colector Config'
   ClientHeight = 181
   ClientWidth = 711
-  ExplicitLeft = 740
-  ExplicitTop = 396
-  ExplicitWidth = 727
-  ExplicitHeight = 219
+  ExplicitWidth = 717
+  ExplicitHeight = 209
   PixelsPerInch = 96
-  TextHeight = 18
+  TextHeight = 13
   inherited RzPanel1: TRzPanel
     Width = 711
     Height = 154
+    ExplicitWidth = 711
+    ExplicitHeight = 154
     inherited gbModal: TRzGroupBox
       Width = 711
       Height = 154
       Caption = 'Config'
-      ExplicitLeft = -1
-      ExplicitTop = -4
       ExplicitWidth = 711
+      ExplicitHeight = 154
       object RzLabel1: TRzLabel
         Left = 8
         Top = 24
-        Width = 90
-        Height = 18
+        Width = 71
+        Height = 13
         Caption = 'LEA Config File'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlue
-        Font.Height = -15
-        Font.Name = 'Calibri'
+        Font.Height = -11
+        Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
       end
       object MsgSourceID: TRzLabel
         Left = 8
         Top = 88
-        Width = 80
-        Height = 18
+        Width = 63
+        Height = 13
         Caption = 'MsgSourceID'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlue
-        Font.Height = -15
-        Font.Name = 'Calibri'
+        Font.Height = -11
+        Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
       end
       object RzLabel2: TRzLabel
         Left = 128
         Top = 88
-        Width = 36
-        Height = 18
+        Width = 27
+        Height = 13
         Caption = 'FileID'
       end
       object RzLabel3: TRzLabel
         Left = 304
         Top = 88
-        Width = 50
-        Height = 18
+        Width = 37
+        Height = 13
         Caption = 'Position'
       end
       object ebLEAConfFile: TRzButtonEdit
         Left = 8
         Top = 48
         Width = 689
-        Height = 26
+        Height = 21
         Text = ''
         FrameStyle = fsBump
         FrameVisible = True
@@ -77,7 +76,7 @@ inherited fmCollectorConfig: TfmCollectorConfig
         Left = 8
         Top = 112
         Width = 80
-        Height = 26
+        Height = 21
         FrameStyle = fsBump
         FrameVisible = True
         TabOrder = 1
@@ -87,7 +86,7 @@ inherited fmCollectorConfig: TfmCollectorConfig
         Left = 128
         Top = 112
         Width = 145
-        Height = 26
+        Height = 21
         FrameStyle = fsBump
         FrameVisible = True
         TabOrder = 2
@@ -97,7 +96,7 @@ inherited fmCollectorConfig: TfmCollectorConfig
         Left = 304
         Top = 112
         Width = 145
-        Height = 26
+        Height = 21
         FrameStyle = fsBump
         FrameVisible = True
         TabOrder = 3
@@ -106,8 +105,8 @@ inherited fmCollectorConfig: TfmCollectorConfig
       object ckbAudit: TRzCheckBox
         Left = 472
         Top = 112
-        Width = 53
-        Height = 20
+        Width = 44
+        Height = 15
         Caption = 'Audit'
         HotTrack = True
         State = cbUnchecked
@@ -118,11 +117,11 @@ inherited fmCollectorConfig: TfmCollectorConfig
   inherited pnBottom: TRzPanel
     Top = 154
     Width = 711
-    ExplicitLeft = 16
-    ExplicitTop = 171
+    ExplicitTop = 154
     ExplicitWidth = 711
     inherited pnOKCancel: TRzPanel
       Left = 549
+      ExplicitLeft = 549
     end
   end
   object odConf: TOpenDialog

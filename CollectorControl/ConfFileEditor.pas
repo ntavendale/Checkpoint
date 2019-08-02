@@ -59,6 +59,7 @@ type
     rowAuditFWFilterField: TcxEditorRow;
     rowAuditFWFilterValue: TcxEditorRow;
     rowRecordHandlerLogging: TcxEditorRow;
+    rowLogTrack: TcxEditorRow;
     procedure ebOpsecSslcaFileButtonClick(Sender: TObject);
   private
     { Private declarations }
@@ -149,6 +150,7 @@ begin
     rowAuditFWFilterField.Properties.Value := AConfig.AuditFWField;
     rowAuditFWFilterValue.Properties.Value := AConfig.AuditFWValue;
     rowRecordHandlerLogging.Properties.Value := AConfig.RecordHandlerLogging;
+    rowLogTrack.Properties.Value := AConfig.LogTrack;
   finally
     vgAdditionalSettings.EndUpdate;
   end;
@@ -183,6 +185,7 @@ begin
     AConfig.AuditFWField := rowAuditFWFilterField.Properties.Value;
     AConfig.AuditFWValue := rowAuditFWFilterValue.Properties.Value;
     AConfig.RecordHandlerLogging := rowRecordHandlerLogging.Properties.Value;
+    AConfig.LogTrack := rowLogTrack.Properties.Value;
   finally
     vgAdditionalSettings.EndUpdate;
   end;

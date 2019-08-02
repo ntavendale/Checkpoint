@@ -7,12 +7,12 @@ inherited fmConfFileEditor: TfmConfFileEditor
   ExplicitWidth = 558
   ExplicitHeight = 680
   PixelsPerInch = 96
-  TextHeight = 18
+  TextHeight = 13
   inherited RzPanel1: TRzPanel
     Width = 552
     Height = 625
     ExplicitWidth = 552
-    ExplicitHeight = 593
+    ExplicitHeight = 625
     inherited gbModal: TRzGroupBox
       Width = 552
       Height = 233
@@ -23,50 +23,50 @@ inherited fmConfFileEditor: TfmConfFileEditor
       object opsec_sic_name: TRzLabel
         Left = 8
         Top = 24
-        Width = 101
-        Height = 18
+        Width = 78
+        Height = 13
         Caption = 'opsec_sic_name'
       end
       object RzLabel1: TRzLabel
         Left = 8
         Top = 56
-        Width = 80
-        Height = 18
+        Width = 62
+        Height = 13
         Caption = 'lea_server ip'
       end
       object RzLabel2: TRzLabel
         Left = 8
         Top = 88
-        Width = 129
-        Height = 18
+        Width = 102
+        Height = 13
         Caption = 'lea_server auth_port'
       end
       object RzLabel3: TRzLabel
         Left = 8
         Top = 120
-        Width = 131
-        Height = 18
+        Width = 104
+        Height = 13
         Caption = 'lea_server auth_type'
       end
       object RzLabel4: TRzLabel
         Left = 8
         Top = 152
-        Width = 212
-        Height = 18
+        Width = 166
+        Height = 13
         Caption = 'lea_server opsec_entity_sic_name'
       end
       object RzLabel5: TRzLabel
         Left = 8
         Top = 184
-        Width = 99
-        Height = 18
+        Width = 77
+        Height = 13
         Caption = 'opsec_sslca_file'
       end
       object ebOpsecSicName: TRzEdit
         Left = 235
         Top = 21
         Width = 310
-        Height = 26
+        Height = 21
         Text = ''
         TabOrder = 0
       end
@@ -74,7 +74,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
         Left = 235
         Top = 53
         Width = 174
-        Height = 26
+        Height = 21
         Text = ''
         TabOrder = 1
       end
@@ -82,7 +82,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
         Left = 235
         Top = 85
         Width = 78
-        Height = 26
+        Height = 21
         TabOrder = 2
         Max = 65536.000000000000000000
         DisplayFormat = '0'
@@ -91,7 +91,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
         Left = 235
         Top = 117
         Width = 174
-        Height = 26
+        Height = 21
         Text = ''
         TabOrder = 3
       end
@@ -99,7 +99,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
         Left = 235
         Top = 149
         Width = 310
-        Height = 26
+        Height = 21
         Text = ''
         TabOrder = 4
       end
@@ -107,7 +107,7 @@ inherited fmConfFileEditor: TfmConfFileEditor
         Left = 235
         Top = 184
         Width = 310
-        Height = 26
+        Height = 21
         Text = ''
         TabOrder = 5
         AltBtnWidth = 15
@@ -123,16 +123,14 @@ inherited fmConfFileEditor: TfmConfFileEditor
       Align = alClient
       Caption = 'Additional Settings'
       TabOrder = 1
-      ExplicitHeight = 360
       object vgAdditionalSettings: TcxVerticalGrid
         Left = 1
-        Top = 19
+        Top = 14
         Width = 550
-        Height = 372
+        Height = 377
         Align = alClient
         OptionsView.RowHeaderWidth = 189
         TabOrder = 0
-        ExplicitHeight = 340
         Version = 1
         object catRow: TcxCategoryRow
           Properties.Caption = 'Opsec Debug Options'
@@ -293,13 +291,28 @@ inherited fmConfFileEditor: TfmConfFileEditor
           Index = 14
           Version = 1
         end
+        object rowLogTrack: TcxEditorRow
+          Properties.Caption = 'Log Track'
+          Properties.EditPropertiesClassName = 'TcxComboBoxProperties'
+          Properties.EditProperties.Items.Strings = (
+            'Normal'
+            'Unified'
+            'Semi'
+            'Raw')
+          Properties.DataBinding.ValueType = 'String'
+          Properties.Value = Null
+          ID = 15
+          ParentID = -1
+          Index = 15
+          Version = 1
+        end
       end
     end
   end
   inherited pnBottom: TRzPanel
     Top = 625
     Width = 552
-    ExplicitTop = 593
+    ExplicitTop = 625
     ExplicitWidth = 552
     inherited pnOKCancel: TRzPanel
       Left = 390

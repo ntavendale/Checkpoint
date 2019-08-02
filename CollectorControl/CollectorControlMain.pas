@@ -116,6 +116,8 @@ type
     ckbWriteToFile: TRzCheckBox;
     ebReceivedLogsFile: TRzButtonEdit;
     sdLogs: TSaveDialog;
+    ppmSaveToFile: TPopupMenu;
+    ppmiSaveToFile: TMenuItem;
     procedure ppmiNewClick(Sender: TObject);
     procedure ppmiEditClick(Sender: TObject);
     procedure ppmiDeleteClick(Sender: TObject);
@@ -128,6 +130,7 @@ type
     procedure ckbWriteToFileClick(Sender: TObject);
     procedure ebReceivedLogsFileButtonClick(Sender: TObject);
     procedure ebCollectorExeChange(Sender: TObject);
+    procedure ppmiSaveToFileClick(Sender: TObject);
   private
     { Private declarations }
     FLogReceptionThread: TTextMessageReceptionThread;
@@ -646,6 +649,17 @@ end;
 procedure TfmMain.ebCollectorExeChange(Sender: TObject);
 begin
   btnSave.Enabled := TRUE;
+end;
+
+procedure TfmMain.ppmiSaveToFileClick(Sender: TObject);
+begin
+  if sdLogs.Execute then
+  begin
+    if 0 = pcOutput.ActivePageIndex then
+      memLog.Lines.SaveToFile(sdLogs.FileName)
+    else if 1 = pcOutput.ActivePageIndex then
+      memCheckpointLogs.Lines.SaveToFile(sdLogs.FileName);
+  end;
 end;
 
 end.

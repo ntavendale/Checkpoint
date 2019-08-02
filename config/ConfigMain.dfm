@@ -4,7 +4,7 @@ object fmMain: TfmMain
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Config Edit'
-  ClientHeight = 613
+  ClientHeight = 635
   ClientWidth = 589
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,6 +15,7 @@ object fmMain: TfmMain
   Menu = menMain
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
   PixelsPerInch = 96
   TextHeight = 13
   object gbModal: TRzGroupBox
@@ -27,9 +28,6 @@ object fmMain: TfmMain
     Caption = 'Opsec Settings'
     GroupStyle = gsStandard
     TabOrder = 1
-    ExplicitLeft = 27
-    ExplicitTop = 56
-    ExplicitWidth = 552
     object opsec_sic_name: TRzLabel
       Left = 8
       Top = 24
@@ -134,24 +132,20 @@ object fmMain: TfmMain
     Left = 0
     Top = 283
     Width = 589
-    Height = 303
+    Height = 325
     Align = alClient
     Caption = 'Additional Settings'
     TabOrder = 2
-    ExplicitLeft = 24
-    ExplicitTop = 281
-    ExplicitWidth = 852
-    ExplicitHeight = 280
+    ExplicitHeight = 303
     object vgAdditionalSettings: TcxVerticalGrid
       Left = 1
       Top = 14
       Width = 587
-      Height = 288
+      Height = 310
       Align = alClient
       OptionsView.RowHeaderWidth = 189
       TabOrder = 0
-      ExplicitWidth = 550
-      ExplicitHeight = 377
+      ExplicitLeft = 2
       Version = 1
       object catRow: TcxCategoryRow
         Properties.Caption = 'Opsec Debug Options'
@@ -334,18 +328,34 @@ object fmMain: TfmMain
         Index = 14
         Version = 1
       end
+      object rowLogTrack: TcxEditorRow
+        Properties.Caption = 'Log Track'
+        Properties.EditPropertiesClassName = 'TcxComboBoxProperties'
+        Properties.EditProperties.DropDownListStyle = lsFixedList
+        Properties.EditProperties.Items.Strings = (
+          'Normal'
+          'Raw'
+          'Unified'
+          'Semi')
+        Properties.EditProperties.OnChange = ebOpsecSicNameChange
+        Properties.DataBinding.ValueType = 'String'
+        Properties.Value = Null
+        ID = 15
+        ParentID = -1
+        Index = 15
+        Version = 1
+      end
     end
   end
   object pnBottom: TRzPanel
     Left = 0
-    Top = 586
+    Top = 608
     Width = 589
     Height = 27
     Align = alBottom
     BorderOuter = fsNone
     TabOrder = 3
-    ExplicitTop = 567
-    ExplicitWidth = 552
+    ExplicitTop = 586
     object imgDirty: TImage
       Left = 8
       Top = 5
@@ -466,7 +476,6 @@ object fmMain: TfmMain
     Align = alTop
     Caption = 'Config File'
     TabOrder = 0
-    ExplicitWidth = 579
     object ebFileName: TRzEdit
       Left = 8
       Top = 16

@@ -72,11 +72,13 @@ type
     sdMain: TSaveDialog;
     ebFileName: TRzEdit;
     imgDirty: TImage;
+    rowLogTrack: TcxEditorRow;
     procedure miOpenClick(Sender: TObject);
     procedure miSaveClick(Sender: TObject);
     procedure miSaveAsClick(Sender: TObject);
     procedure btnExitClick(Sender: TObject);
     procedure ebOpsecSicNameChange(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
     { Private declarations }
     procedure LoadConfig(AFileName: String);
@@ -154,6 +156,18 @@ begin
   SetIndexDetailGrid(AConfig);
 end;
 
+procedure TfmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  if imgDirty.Visible  then
+  begin
+    var LModalResult := MessageDlg('Save Changes?', mtConfirmation, [mbYes, mbNo, mbCancel], 0);
+    if mrYes = LModalResult then
+      SaveConfig(ebFileName.Text, FALSE);
+    CanClose := (mrCancel <> LModalResult);
+  end else
+    CanClose := TRUE;
+end;
+
 function TfmMain.FormToConfig: TLEAConfig;
 begin
   Result := TLEAConfig.Create;
@@ -192,6 +206,7 @@ begin
     rowAuditFWFilterField.Properties.Value := AConfig.AuditFWField;
     rowAuditFWFilterValue.Properties.Value := AConfig.AuditFWValue;
     rowRecordHandlerLogging.Properties.Value := AConfig.RecordHandlerLogging;
+    rowLogTrack.Properties.Value := AConfig.LogTrack;
   finally
     vgAdditionalSettings.EndUpdate;
   end;
@@ -226,6 +241,7 @@ begin
     AConfig.AuditFWField := rowAuditFWFilterField.Properties.Value;
     AConfig.AuditFWValue := rowAuditFWFilterValue.Properties.Value;
     AConfig.RecordHandlerLogging := rowRecordHandlerLogging.Properties.Value;
+    AConfig.LogTrack := rowLogTrack.Properties.Value;
   finally
     vgAdditionalSettings.EndUpdate;
   end;

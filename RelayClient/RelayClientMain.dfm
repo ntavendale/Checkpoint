@@ -7,55 +7,54 @@ object fmMain: TfmMain
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -15
-  Font.Name = 'Calibri'
+  Font.Height = -11
+  Font.Name = 'Tahoma'
   Font.Style = []
   Menu = menMain
   OldCreateOrder = False
   Position = poScreenCenter
   PixelsPerInch = 96
-  TextHeight = 18
+  TextHeight = 13
   object gbSettings: TRzGroupBox
     Left = 0
     Top = 0
     Width = 1118
-    Height = 129
     Align = alTop
     Caption = 'Settings'
     TabOrder = 0
     object RzLabel1: TRzLabel
       Left = 8
       Top = 24
-      Width = 69
-      Height = 18
+      Width = 56
+      Height = 13
       Caption = 'Relay Host:'
     end
     object lbRelayHost: TRzLabel
       Left = 96
       Top = 24
-      Width = 74
-      Height = 18
+      Width = 57
+      Height = 13
       Caption = 'lbRelayHost'
     end
     object WaitTimeout: TRzLabel
       Left = 8
       Top = 51
-      Width = 147
-      Height = 18
+      Width = 117
+      Height = 13
       Caption = 'Reapeat Interval (msec)'
     end
     object RzLabel2: TRzLabel
       Left = 200
       Top = 51
-      Width = 23
-      Height = 18
+      Width = 16
+      Height = 13
       Caption = 'File'
     end
     object neRepeat: TRzNumericEdit
       Left = 8
       Top = 75
       Width = 113
-      Height = 26
+      Height = 21
       TabOrder = 0
       Max = 5000.000000000000000000
       DisplayFormat = '0'
@@ -65,7 +64,7 @@ object fmMain: TfmMain
       Left = 200
       Top = 75
       Width = 897
-      Height = 26
+      Height = 21
       Text = ''
       Color = clInfoBk
       ReadOnly = True
@@ -78,20 +77,24 @@ object fmMain: TfmMain
   end
   object gbMessages: TRzGroupBox
     Left = 0
-    Top = 129
+    Top = 105
     Width = 1118
-    Height = 351
+    Height = 375
     Align = alClient
     Caption = 'Messages'
     TabOrder = 1
+    ExplicitTop = 129
+    ExplicitHeight = 351
     object gMessages: TcxGrid
       Left = 1
-      Top = 19
+      Top = 14
       Width = 823
-      Height = 331
+      Height = 360
       Align = alClient
       PopupMenu = ppmGridMenu
       TabOrder = 0
+      ExplicitTop = 19
+      ExplicitHeight = 331
       object tvMessages: TcxGridTableView
         Navigator.Buttons.CustomButtons = <>
         OnSelectionChanged = tvMessagesSelectionChanged
@@ -127,12 +130,14 @@ object fmMain: TfmMain
     end
     object vgMsgDetail: TcxVerticalGrid
       Left = 824
-      Top = 19
+      Top = 14
       Width = 293
-      Height = 331
+      Height = 360
       Align = alRight
       OptionsView.RowHeaderWidth = 132
       TabOrder = 1
+      ExplicitTop = 19
+      ExplicitHeight = 331
       Version = 1
     end
   end
@@ -146,18 +151,16 @@ object fmMain: TfmMain
     Align = alBottom
     TabIndex = 0
     TabOrder = 2
-    FixedDimension = 24
+    FixedDimension = 19
     object tsLog: TRzTabSheet
       Caption = 'Log'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitTop = 25
+      ExplicitHeight = 179
       object memLog: TRzMemo
         Left = 0
         Top = 0
         Width = 1114
-        Height = 179
+        Height = 184
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -169,6 +172,7 @@ object fmMain: TfmMain
         TabOrder = 0
         FrameStyle = fsBump
         FrameVisible = True
+        ExplicitHeight = 179
       end
     end
   end

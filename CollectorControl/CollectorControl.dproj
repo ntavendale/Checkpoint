@@ -132,10 +132,10 @@
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_ExeOutput>..\Setup</DCC_ExeOutput>
-        <VerInfo_Build>19</VerInfo_Build>
+        <VerInfo_Build>21</VerInfo_Build>
         <Icon_MainIcon>TheIcon.ico</Icon_MainIcon>
         <DCC_Define>EUREKALOG;$(DCC_Define)</DCC_Define>
-        <VerInfo_Keys>CompanyName=The Hooded Claw;FileVersion=1.0.0.19;InternalName=;LegalCopyright=(c)2018 The Hooded Claw;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=The Hooded Claw;FileVersion=1.0.0.21;InternalName=;LegalCopyright=(c)2018 The Hooded Claw;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_DebugInformation>2</DCC_DebugInformation>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
